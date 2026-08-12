@@ -1,6 +1,5 @@
 #!name=儿歌点点 VIP 解锁
-#!desc=2026-08-12 · 89996462
-#!author=89996462 (Loon port)
+#!desc=2026-08-12 · 解锁 VIP (全内容/去广告),需先登录免费账户
 #!homepage=https://github.com/89996462/Quantumult-X
 #!icon=https://cdn.jsdelivr.net/gh/tedwcy/proxy-plugins/icons/egdd.png
 [MITM]
