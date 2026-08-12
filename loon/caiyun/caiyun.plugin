@@ -1,9 +1,8 @@
 #!name=彩云天气 SVIP 解锁
-#!desc=2026-08-12 · 解锁彩云天气 Pro 全功能 (SVIP/去广告/卫星云图/露点温度等),支持 Pro 版
+#!desc=2026-08-12 · 解锁彩云天气 Pro 全功能 (SVIP 权益/付费功能/去广告),支持 Pro 版
 #!homepage=https://yfamily.ml
 #!icon=https://raw.githubusercontent.com/deezertidal/private/main/icons/caiyun.png
 [MITM]
-hostname=biz.caiyunapp.com
+hostname=wrapper.cyapi.cn, biz.cyapi.cn, ad.cyapi.cn, starplucker.cyapi.cn
 [Script]
-http-response ^https?:\/\/biz\.caiyunapp\.com\/v2\/user\?app_name=weather requires-body=1,script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon/caiyun/caiyun.js
-http-response ^https?:\/\/biz\.caiyunapp\.com\/membership_rights requires-body=1,script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon/caiyun/caiyun.js
+http-response ^https?:\/\/(wrapper|biz|ad|starplucker)\.cyapi\.cn\/ requires-body=1,script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon/caiyun/caiyun.js
