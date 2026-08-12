@@ -1,0 +1,10 @@
+#!name=iRingo WeatherKit
+#!desc=2026-08-12 · 解锁 iOS 天气全部功能 (空气质量/小时降水/天气预警),无需 API key
+#!homepage=https://NSRingo.github.io/guide/Weather/weather-kit
+#!icon=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/iringo_weather.png
+[MITM]
+hostname=weatherkit.apple.com
+[Script]
+http-response ^https?:\/\/weatherkit\.apple\.com\/api\/v1\/availability\/ requires-body=1,script-path=https://raw.githubusercontent.com/NSRingo/WeatherKit/releases/download/v3.2.1/response.bundle.js
+http-response ^https?:\/\/weatherkit\.apple\.com\/api\/v1\/weatherAlerts\?[^#]*&ids=-?[0-9]+(?:\.[0-9]+)?,-?[0-9]+(?:\.[0-9]+)?(?:&|$) requires-body=1,script-path=https://raw.githubusercontent.com/NSRingo/WeatherKit/releases/download/v3.2.1/request.bundle.js
+http-response ^https?:\/\/weatherkit\.apple\.com\/api\/v2\/weather\/ requires-body=1,script-path=https://raw.githubusercontent.com/NSRingo/WeatherKit/releases/download/v3.2.1/response.bundle.js
