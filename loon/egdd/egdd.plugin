@@ -1,0 +1,10 @@
+#!name=儿歌点点 VIP 解锁
+#!desc=89996462 egdd.js (QuantumultX) port 到 Loon;原脚本作者 https://github.com/89996462/Quantumult-X
+#!author=89996462 (Loon port)
+#!homepage=https://github.com/89996462/Quantumult-X
+
+[Script]
+http-response ^https?:\/\/gateway\.ergediandian\.com\/dduser\/user\/center\/set requires-body=1,max-size=0,timeout=30,script-path=https://cdn.jsdelivr.net/gh/tedwcy/proxy-plugins@main/loon/egdd/egdd.js,tag=egdd VIP
+
+[MITM]
+hostname = gateway.ergediandian.com
