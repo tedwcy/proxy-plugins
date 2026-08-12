@@ -1,8 +1,8 @@
 #!name=Flightradar24 VIP 解锁
 #!desc=2026-08-12 · 解锁 Gold 订阅 (365 天历史/去广告/无限追踪),需先用免费账户登录
 #!homepage=https://t.me/ddgksf2021
-#!icon=https://cdn.jsdelivr.net/gh/tedwcy/proxy-plugins/icons/flightradar24.png
+#!icon=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/flightradar24.png
 [MITM]
 hostname=mobile.flightradar24.com
 [Script]
-http-response ^https?:\/\/mobile\.flightradar24\.com\/mobile\/(user-session|\w{9}) requires-body=1,script-path=https://cdn.jsdelivr.net/gh/tedwcy/proxy-plugins/loon/flightradar24/flightradar24.js
+http-response ^https?:\/\/mobile\.flightradar24\.com\/mobile\/(user-session|\w{9}) requires-body=1,script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon/flightradar24/flightradar24.js
