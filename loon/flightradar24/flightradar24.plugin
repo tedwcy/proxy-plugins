@@ -2,6 +2,7 @@
 #!desc=2026-08-12 · ddgksf2013
 #!author=ddgksf2013 (Loon port)
 #!homepage=https://t.me/ddgksf2021
+#!icon=https://cdn.jsdelivr.net/gh/tedwcy/proxy-plugins/icons/flightradar24.png
 [MITM]
 hostname=mobile.flightradar24.com
 [Script]

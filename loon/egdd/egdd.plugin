@@ -2,6 +2,7 @@
 #!desc=2026-08-12 · 89996462
 #!author=89996462 (Loon port)
 #!homepage=https://github.com/89996462/Quantumult-X
+#!icon=https://cdn.jsdelivr.net/gh/tedwcy/proxy-plugins/icons/egdd.png
 [MITM]
 hostname=gateway.ergediandian.com
 [Script]
