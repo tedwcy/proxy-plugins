@@ -1,8 +1,8 @@
 #!name=彩云天气 SVIP 解锁
-#!desc=2026-08-12 · 伪造彩云天气 Pro SVIP 状态 (权益列表/付费功能/去广告/营销弹窗),需登录任意账号
+#!desc=2026-08-12 · 伪造彩云天气 Pro SVIP 状态 (权益列表/付费功能/去广告/营销弹窗),需配合本地 caiyun.js
 #!homepage=https://yfamily.ml
 #!icon=https://raw.githubusercontent.com/deezertidal/private/main/icons/caiyun.png
 [MITM]
 hostname=wrapper.cyapi.cn, starplucker.cyapi.cn, biz.cyapi.cn, ad.cyapi.cn
 [Script]
-http-response ^https?:\/\/(wrapper|starplucker|biz|ad)\.cyapi\.cn\/ requires-body=1,script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon/caiyun/caiyun.js
+http-response ^https?:\/\/(wrapper|starplucker|biz|ad)\.cyapi\.cn\/ requires-body=1,script-path=caiyun.js
