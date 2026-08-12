@@ -5,5 +5,5 @@
 [MITM]
 hostname=biz.caiyunapp.com
 [Script]
-http-response ^https?:\/\/biz\.caiyunapp\.com\/v2\/user requires-body=1,script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon/caiyun/caiyun.js
+http-response ^https?:\/\/biz\.caiyunapp\.com\/v2\/user\?app_name=weather requires-body=1,script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon/caiyun/caiyun.js
 http-response ^https?:\/\/biz\.caiyunapp\.com\/membership_rights requires-body=1,script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon/caiyun/caiyun.js
