@@ -1,49 +1,42 @@
 // Vista 看天下 (VistaKTX) SVIP 解锁
-// 基于 Ted 真实抓包 (2026-08-12 22:51 + 22:57)
-// 盲猜字段: 在 isFree 基础上加 articleType/vipType/payType/needBuy/isVip/isLimitFree 等
+// 基于 Ted 真实抓包 (2026-08-12 22:51 + 22:57 + 08-13 07:08)
+// 真实 host: ktx.cn
+// 关键发现: article.mag.isfree: 0 (小写) + isFreeMag: 0 + isBuyMag: 0
+//         + columnList[].articles[].isFreeMag: 0 (列表里的杂志字段)
+// 全部都改 0 → 1,价格 0,购买状态 1
 
 const body = $response.body;
 if (!body) { $done({}); return; }
 
 let newBody = body
-  // === 顶级 VIP 状态 (已 work) ===
+  // === VIP 身份字段 (已 work, 用户页面 2099 年到期) ===
   .replace(/"isVip":0/g, '"isVip":1')
   .replace(/"isActive":0/g, '"isActive":1')
   .replace(/"isMiniVip":0/g, '"isMiniVip":1')
   .replace(/"expireVip":1/g, '"expireVip":0')
   .replace(/"endTime":\d{13}/g, '"endTime":4100726622000')
 
-  // === article 嵌套层 isFree (已 work 但内容仍锁, 试更多字段) ===
-  // article.isFree:0 → 1 (上层)
+  // === 内容付费字段 (本次重点!) ===
+  // 大写 isFree: 文章本身免费状态
   .replace(/"isFree":0/g, '"isFree":1')
 
-  // articleType: 6 可能是 vip 内容 → 改 0 (普通)
-  // 注意: 改成 0 可能错(articleType 含义可能不一样),如果 app 闪退就回退
-  .replace(/"articleType":6/g, '"articleType":0')
+  // 关键! 小写 isfree: 整本杂志是否免费 (article.mag.isfree)
+  .replace(/"isfree":0/g, '"isfree":1')
 
-  // vipType: 1 (需要 vip) → 0 (不需要)
-  .replace(/"vipType":1/g, '"vipType":0')
-  .replace(/"vipType":2/g, '"vipType":0')
+  // 整本杂志是否免费 (isFreeMag: 0 = 收费)
+  .replace(/"isFreeMag":0/g, '"isFreeMag":1')
 
-  // payType: 1/2 (付费类型) → 0 (免费)
-  .replace(/"payType":1/g, '"payType":0')
-  .replace(/"payType":2/g, '"payType":0')
+  // 杂志是否已购买 (isBuyMag: 0 = 没买)
+  .replace(/"isBuyMag":0/g, '"isBuyMag":1')
 
-  // needBuy: 1 → 0
-  .replace(/"needBuy":1/g, '"needBuy":0')
+  // 文章是否已购买 (isBuyArticle: 0 = 没买)
+  .replace(/"isBuyArticle":0/g, '"isBuyArticle":1')
 
-  // needVip: 1 → 0
-  .replace(/"needVip":1/g, '"needVip":0')
+  // 价格 0 (让 app 误以为免费)
+  .replace(/"price":\d+/g, '"price":0')
+  .replace(/"originalPrice":\d+/g, '"originalPrice":0')
 
-  // vipOnly: 1 → 0
-  .replace(/"vipOnly":1/g, '"vipOnly":0')
-
-  // isLimitFree: 0 → 1 (限制免费 = 0 是付费,反过来)
-  .replace(/"isLimitFree":0/g, '"isLimitFree":1')
-
-  // 通用 payStatus / subscribe
-  .replace(/"payStatus":0/g, '"payStatus":1')
-  .replace(/"subscribe":0/g, '"subscribe":1')
-  .replace(/"subscribed":false/g, '"subscribed":true');
+  // isNew 等其他
+  .replace(/"isNew":0/g, '"isNew":1');
 
 $done({ body: newBody });

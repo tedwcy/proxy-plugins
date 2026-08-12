@@ -1,5 +1,5 @@
 #!name=Vista 看天下 VIP 解锁
-#!desc=2026-08-12 · 解锁 VistaKTX 全功能 (盲猜字段批量改),基于真实抓包
+#!desc=2026-08-13 · 解锁 VistaKTX 全功能 (含 isfree 小写/isFreeMag/isBuyMag/isBuyArticle),基于真实抓包
 #!homepage=https://yfamilys.com
 #!icon=https://raw.githubusercontent.com/deezertidal/private/main/icons/vista.png
 [MITM]
