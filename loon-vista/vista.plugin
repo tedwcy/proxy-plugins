@@ -1,8 +1,8 @@
 #!name=Vista 看天下 VIP 解锁
-#!desc=2026-08-12 · 解锁 Vista 看天下会员内容 + 永久到期时间(基于 lutqhysky Vister.js)
+#!desc=2026-08-12 · 解锁 VistaKTX 全功能 (isVip/isActive/isMiniVip/expireVip/endTime),基于真实抓包
 #!homepage=https://yfamilys.com
 #!icon=https://raw.githubusercontent.com/deezertidal/private/main/icons/vista.png
 [MITM]
-hostname=open3.vistastory.com
+hostname=ktx.cn, open3.vistastory.com
 [Script]
-http-response ^https?:\/\/open3\.vistastory\.com\/v\d\/api\/(article\/article_detail|article\/article_detail2|vip\/get_vip|my\/home\/get_home_center|vip\/get_vip_info_and_recommend_mags|vip\/get_vip_price_info|magazine\/mag_column_detail) requires-body=1,script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon-vista/vista.js
+http-response ^https?:\/\/ktx\.cn\/v3\/api\/(vip\/|my\/home\/|article\/|magazine\/|index\/|popup\/|adm\/|mag\/pdf\/show_pdf|feature\/get_feature) requires-body=1,script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon-vista/vista.js
