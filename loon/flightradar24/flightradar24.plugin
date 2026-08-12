@@ -1,10 +1,8 @@
-#!name=Flightradar24 VIP 解锁 (v2 - HTTPS URL + 显式 headers)
-#!desc=ddgksf2013 flightradar24.vip.js (QuantumultX) port 到 Loon;脚本原作者 https://t.me/ddgksf2021
+#!name=Flightradar24 VIP 解锁
+#!desc=ddgksf2013 flightradar24.vip.js (QuantumultX) port 到 Loon
 #!author=ddgksf2013 (Loon port)
 #!homepage=https://t.me/ddgksf2021
-
-[Script]
-http-response ^https?:\/\/mobile\.flightradar24\.com\/mobile\/(user-session|\w{9}) requires-body=1,max-size=0,timeout=30,script-path=https://litter.catbox.moe/18m1ld.js,tag=FR24 VIP
-
 [MITM]
-hostname = mobile.flightradar24.com
+hostname=mobile.flightradar24.com
+[Script]
+http-response ^https?:\/\/mobile\.flightradar24\.com\/mobile\/(user-session|\w{9}) requires-body=1,script-path=https://cdn.jsdelivr.net/gh/tedwcy/proxy-plugins@main/loon/flightradar24/flightradar24.js
