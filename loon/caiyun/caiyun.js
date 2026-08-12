@@ -7,47 +7,28 @@ const body = $response.body;
 
 if (!body) { $done({}); return; }
 
-// ============================================================
-// 1. SVIP 权益列表 (/v3/config/membership/svip/rights)
-//    真实抓包 response 直接复用
-// ============================================================
-if (/^https?:\/\/wrapper\.cyapi\.cn\/v3\/config\/membership\/svip\/rights/.test(url)) {
+// 1. SVIP 权益列表
+if (/^https?:\/\/(wrapper|biz|ad|starplucker)\.cyapi\.cn\/v3\/config\/membership\/svip\/rights/.test(url)) {
   $done({ body: REAL_SVIP_RIGHTS });
   return;
 }
 
-// ============================================================
-// 2. VIP 功能特性 (/v3/operation/features?user_type=paid)
-//    拦截 user_type=paid,返回 paid 完整功能列表
-// ============================================================
-if (/^https?:\/\/wrapper\.cyapi\.cn\/v3\/operation\/features/.test(url)) {
+// 2. /v3/operation/features (SVIP 付费功能)
+if (/^https?:\/\/(wrapper|biz|ad|starplucker)\.cyapi\.cn\/v3\/operation\/features/.test(url)) {
   $done({ body: REAL_OPERATION_FEATURES });
   return;
 }
 
-// ============================================================
-// 3. /v1/activity (各种 type_id)
-//    SVIP 专属 type_id 强制返回 "status":"ok" + 完整 activities
-// ============================================================
-if (/^https?:\/\/wrapper\.cyapi\.cn\/v1\/activity/.test(url)) {
-  const obj = JSON.parse(body);
-  if (obj.status === 'failed') {
-    // 强制 SVIP 状态:返回真实 SVIP 内容
-    $done({ body: JSON.stringify({
-      status: "ok",
-      activities: [
-        { "type": "policy", "name": "svip_unlocked", "feature": true }
-      ],
-      interval: 200,
-      id": "675fc1b6e293e04d7a12e933"
-    }) });
-    return;
-  }
-  // ok 的也强制 feature=true (for SVIP-only items)
-  if (obj.activities) {
-    obj.activities.forEach(a => { a.feature = true; });
-  }
-  $done({ body: JSON.stringify(obj) });
+// 3. /v1/activity (SVIP 推广内容)
+if (/^https?:\/\/(wrapper|biz|ad|starplucker)\.cyapi\.cn\/v1\/activity/.test(url)) {
+  $done({ body: JSON.stringify({
+    status: "ok",
+    activities: [
+      { "type": "policy", "name": "svip_unlocked", "feature": true }
+    ],
+    interval: 200,
+    id": "675fc1b6e293e04d7a12e933"
+  }) });
   return;
 }
 
@@ -85,7 +66,10 @@ const REAL_SVIP_RIGHTS = JSON.stringify({
       "image_redirect": "", "icon": "https://cdn-w.caiyunapp.com/p/banner/test/6552020abdaf59c21355c6c0.png" },
     { "name": "贴心提醒", "title": "贴心提醒", "description": "为您推送当前位置、收藏位置等多地天气降雨预报",
       "image": "https://cdn-w.caiyunapp.com/p/banner/test/66a2276eb92035cef1c19481.png",
-      "image_dark": "https://cdn-w.caiyunapp.com/p/banner/test66a22775b92035cef1c19482.png" },
+      "image_dark": "https://cdn-w.caiyunapp.com/p/banner/test/66a2274eb92035cef1c1947c.png",
+      "image_short": "https://cdn-w.caiyunapp.com/p/banner/test/66a22775b92035fef1c19482.png",
+      "image_short_dark": "https://cdn-w.caiyunapp.com/p/banner/test/66a2278b1a1f8eed97132d92.png",
+      "image_redirect": "", "icon": "https://cdn-w.caiyunapp.com/p/banner/test/6552036161f3be04d5343eac.png" },
     { "name": "去广告", "title": "去广告", "description": "个性主题皮肤以及免广告权益",
       "image": "https://cdn-w.caiyunapp.com/p/banner/test/66a2279bb92035cef1c19485.png",
       "image_dark": "https://cdn-w.caiyunapp.com/p/banner/test/66a227a2b92035cef1c19486.png",
@@ -103,7 +87,6 @@ const REAL_SVIP_RIGHTS = JSON.stringify({
   ]
 });
 
-// /v3/operation/features?user_type=paid 真实响应
 const REAL_OPERATION_FEATURES = JSON.stringify({
   "data": [
     { "avatar": "https://cdn-w.caiyunapp.com/p/app/operation/prod/feature/64c7902e0316e4878d28ce8e/4497e5c1a780ad2eff73e42ef54b01c6.png",
@@ -115,7 +98,7 @@ const REAL_OPERATION_FEATURES = JSON.stringify({
     { "avatar": "https://cdn-w.caiyunapp.com/p/app/operation/prod/feature/68cd1c7eadb018b0c778b72f/2b431f07b7b16a86b87fbb3962e3519b.png",
       "url": "cy://page_alert_nearby", "title": "附近预警", "feature_type": "", "badge_type": "" },
     { "avatar": "https://cdn-w.caiyunapp.com/p/app/operation/prod/feature/66a881fbd428d25287131ed0/ed69d74bd09bb316cc55100110acb8fe.png",
-      "url": "https://h5.caiyunapp.com/calender", "title": "万年历", "feature_type": "", "badge_type": "custom" },
+      "url": "https://h5.caiyunapp.com/calender", "title": "万年历", "feature_type": "", "badge_type": "", "badge_type": "custom" },
     { "avatar": "https://cdn-w.caiyunapp.com/p/app/operation/prod/feature/668cf839367625ff6748e635/a2f87de53ce89609ee3773012e3bf78e.png",
       "url": "cy://page_earthquake_view", "title": "地震地图", "feature_type": "", "badge_type": "" },
     { "avatar": "https://cdn-w.caiyunapp.com/p/app/operation/prod/feature/66f50b56908a75e646cf76df/9ca8d63360974d77c772fe1b88106016.png",
