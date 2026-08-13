@@ -25,8 +25,13 @@ if (typeof $response === 'undefined') {
   // 其他 GET 请求都剥 (POST 评论/点赞保留)
   if (method === 'GET' && !keepKtxToken.test(url)) {
     // URL 参数剥掉 ktxToken=...
+    // ⚠️ Bug 修复 (2026-08-13 16:55): ktxToken 是第一参数时不能简单用
+    //   ([?&])ktxToken=... 把 ? 也吃掉了,会变成
+    //   /get_content&columnId=1 (缺 ?) → server 400/404
+    // 正确逻辑: ?ktxToken=X&... 保持 ? + 删 ktxToken; &ktxToken=X 删
     const newUrl = url
-      .replace(/([?&])ktxToken=[^&]*/g, '')
+      .replace(/\?ktxToken=[^&]*&?/, (m) => m.endsWith('&') ? '?' : '')
+      .replace(/&ktxToken=[^&]*/g, '')
       .replace(/[?&]$/, '');
 
     // Header 也剥 (server 两边都查)
