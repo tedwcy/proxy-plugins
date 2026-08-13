@@ -73,7 +73,7 @@ https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/<name>.png
 - `.js` 顶部加 `console.log('[PluginName] v1.0.X loaded')` 让 Ted 在 Loon 脚本日志中验证**实际跑的版本**(desc 看到 ≠ 已加载,日志看到才稳)
 - 目的：一天内多次更新时 Ted 能一眼确认"我装的是最新版"
 
-**更新流程**: 原脚本有更新时,desc 日期改为新转换日期,提交。
+**更新流程**: 原脚本有更新时,version bump (X +1),更新 desc 时间戳,提交 + push。
 
 ## 当前脚本
 
