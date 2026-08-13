@@ -1,29 +1,35 @@
 // Vista 看天下 (VistaKTX) SVIP 解锁
 // 关键策略 (基于 Ted 第 5 次登出态抓包 2026-08-13 08:00):
-//   1. http-request: content 端点 (article/magazine/featured) 去掉 ktxToken,
-//                   让 server 当登出态,返回 full content + free flags
-//   2. http-response: 其他端点 (vip/my 等) 翻 VIP flag,避免 UI 显示订阅 banner
-// 评论/收藏等需要登录态的端点不动 ktxToken,所以评论功能不受影响
+//   1. http-request: GET 请求去掉 ktxToken (保留用户信息端点),让 server 当登出态
+//   2. http-response: 翻 VIP 相关 flag,避免 UI 显示订阅 banner
+//   评论/收藏等 POST 请求不动 ktxToken,所以评论功能不受影响
 //
-// Ted 4 次真实抓包时间线:
+// Ted 5 次真实抓包时间线:
 //   - 22:51 / 22:57: 初步解构
 //   - 07:08 / 07:14: 登入态 (content 3678 = 试看)
 //   - 08:00: 登出态 (content 6073 = 全文, 全 free flag)
 
 const url = $request.url;
 
-// === http-request: content 端点 GET 请求去掉 ktxToken ===
+// === http-request: 剥 ktxToken ===
 if (typeof $response === 'undefined') {
   const method = $request.method;
-  // 只处理 GET (POST 评论/点赞等不动)
-  if (method === 'GET' &&
-      /^https?:\/\/ktx\.cn\/v3\/api\/(article|magazine|featured)\//.test(url)) {
-    // URL 参数里去掉 ktxToken=...
+
+  // 保留 ktxToken 的端点 (需要登录态)
+  // vip/       : VIP 信息
+  // subscription/ : 订阅状态
+  // my/        : "我的" 个人中心
+  // user/      : 用户相关 (评分等)
+  const keepKtxToken = /^https?:\/\/ktx\.cn\/v3\/api\/(vip|subscription|my|user)\//;
+
+  // 其他 GET 请求都剥 (POST 评论/点赞保留)
+  if (method === 'GET' && !keepKtxToken.test(url)) {
+    // URL 参数剥掉 ktxToken=...
     const newUrl = url
       .replace(/([?&])ktxToken=[^&]*/g, '')
       .replace(/[?&]$/, '');
 
-    // Header 里也去掉 ktxToken (server 两边都查)
+    // Header 也剥 (server 两边都查)
     const newHeaders = {};
     for (const k in $request.headers) {
       if (k.toLowerCase() !== 'ktxtoken') {
@@ -38,8 +44,8 @@ if (typeof $response === 'undefined') {
   return;
 }
 
-// === http-response: VIP 相关 flag 翻 0→1,避免 UI 显示订阅 banner ===
-// (content 端点 server 已返回 free flag,这步是 no-op;其他端点有用)
+// === http-response: VIP flag 翻 0→1 ===
+// (content 端点 server 已返 free flag,这步是 no-op;vip/my 等端点有用)
 const body = $response.body;
 if (!body) { $done({}); return; }
 
@@ -50,7 +56,7 @@ const newBody = body
   .replace(/"isMiniVip":0/g, '"isMiniVip":1')
   .replace(/"expireVip":1/g, '"expireVip":0')
   .replace(/"endTime":\d{13}/g, '"endTime":4100726622000')
-  .replace(/"isLogin":1/g, '"isLogin":0')           // app 误以为未登录,少一些 paywall 触发
+  .replace(/"isLogin":1/g, '"isLogin":0')           // app 误以为未登录,少触发 paywall
   // 内容付费字段
   .replace(/"isFree":0/g, '"isFree":1')
   .replace(/"isfree":0/g, '"isfree":1')             // 小写! 整本杂志
