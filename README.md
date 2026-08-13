@@ -51,8 +51,14 @@ https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/<name>.png
 | `#!icon=` | 图标 (推荐) | HTTPS URL, 来自 `icons/` 目录 |
 
 **desc 格式示例**:
-- `2026-08-12 · 解锁 Gold 订阅 (365 天历史/去广告/无限追踪),需先用免费账户登录` (FR24)
-- `2026-08-12 · 解锁 VIP (全内容/去广告),需先登录免费账户` (egdd)
+- `v1.0.12 · 2026-08-13 17:08 · 解锁 Gold 订阅 (365 天历史/去广告/无限追踪),需先用免费账户登录` (FR24)
+- `v1.0.12 · 2026-08-13 17:08 · 解锁 VIP (全内容/去广告),需先登录免费账户` (egdd)
+
+**版本号 + 时间戳规范** (2026-08-13 立):
+- 格式：`v1.0.X · YYYY-MM-DD HH:MM · 功能描述`
+- 每次 commit 改 `.js` 或 `.plugin` → patch (X) +1
+- `.js` 顶部加 `console.log('[PluginName] v1.0.X loaded')` 让 Ted 在 Loon 脚本日志中验证**实际跑的版本**(desc 看到 ≠ 已加载,日志看到才稳)
+- 目的：一天内多次更新时 Ted 能一眼确认"我装的是最新版"
 
 **更新流程**: 原脚本有更新时,desc 日期改为新转换日期,提交。
 

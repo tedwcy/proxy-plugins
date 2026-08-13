@@ -1,4 +1,5 @@
 // Vista 看天下 (VistaKTX) SVIP 解锁
+// v1.0.12 · 2026-08-13 17:08
 // 关键策略 (基于 Ted 第 5 次登出态抓包 2026-08-13 08:00):
 //   1. http-request: GET 请求去掉 ktxToken (保留用户信息端点),让 server 当登出态
 //   2. http-response: 翻 VIP 相关 flag,避免 UI 显示订阅 banner
@@ -11,7 +12,9 @@
 
 const url = $request.url;
 
-// === http-request: 剥 ktxToken ===
+// === Version log (Ted 验证用:Loon 脚本日志里能看到) ===
+console.log('[Vista] v1.0.12 loaded');
+
 if (typeof $response === 'undefined') {
   const method = $request.method;
 

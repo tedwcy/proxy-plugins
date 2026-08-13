@@ -1,5 +1,5 @@
 #!name=Vista 看天下 VIP 解锁
-#!desc=2026-08-13 · 解锁 VistaKTX 全文 (content GET 去 ktxToken,评论/收藏保留登录态)
+#!desc=v1.0.12 · 2026-08-13 17:08 · 解锁 VistaKTX 全文 (content GET 去 ktxToken,评论/收藏保留登录态)
 #!homepage=https://yfamilys.com
 #!icon=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/vista.png
 [MITM]
