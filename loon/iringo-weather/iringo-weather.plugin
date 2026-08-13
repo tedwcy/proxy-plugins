@@ -1,5 +1,5 @@
 #!name=iRingo WeatherKit
-#!desc=2026-08-12 · 解锁 iOS 天气全部功能 (空气质量/小时降水/天气预警),无需 API key
+#!desc=v1.0.0 · 2026-08-13 17:30 · 解锁 iOS 天气全部功能 (空气质量/小时降水/天气预警),无需 API key
 #!homepage=https://NSRingo.github.io/guide/Weather/weather-kit
 #!icon=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/iringo_weather.png
 [MITM]

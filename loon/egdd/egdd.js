@@ -1,3 +1,6 @@
+// proxy-plugins version log
+console.log("[egdd] v1.0.0 loaded");
+
 /******************************
 
 脚本功能：儿歌点点+解锁VIP

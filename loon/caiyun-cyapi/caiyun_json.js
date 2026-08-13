@@ -1,3 +1,6 @@
+// proxy-plugins version log
+console.log("[caiyun_json] v1.0.0 loaded");
+
 /***********************************************
 > 应用名称：墨鱼自用彩云天气去广告脚本
 > 脚本作者：@ddgksf2013

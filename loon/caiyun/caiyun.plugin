@@ -1,5 +1,5 @@
 #!name=彩云天气 SVIP 解锁
-#!desc=2026-08-12 · 伪造彩云天气 Pro SVIP 状态 (权益列表/付费功能/去广告/营销弹窗),需配合本地 caiyun.js
+#!desc=v1.0.0 · 2026-08-13 17:30 · 伪造彩云天气 Pro SVIP 状态 (权益列表/付费功能/去广告/营销弹窗),需配合本地 caiyun.js
 #!homepage=https://yfamily.ml
 #!icon=https://raw.githubusercontent.com/deezertidal/private/main/icons/caiyun.png
 [MITM]

@@ -1,3 +1,6 @@
+// proxy-plugins version log
+console.log("[caiyun] v1.0.0 loaded");
+
 // 彩云天气 Pro SVIP 解锁 - Loon 原生 API
 // 基于 Ted 真实抓包 (2026-08-12)
 // 域名: wrapper.cyapi.cn / starplucker.cyapi.cn / biz.cyapi.cn / ad.cyapi.cn

@@ -2,6 +2,22 @@
 
 Loon / Surge / Shadowrocket / 其他代理工具的插件和重写脚本集合。
 
+## ⚠️ 免责声明
+
+**本仓库所有脚本收集自网络,仅供学习交流使用。**
+
+如有侵权(版权、API 滥用、平台政策等),请通过以下方式联系,将在 **24 小时内** 删除对应内容:
+
+- **邮箱**: `ted1992@live.cn`
+- **GitHub Issue**: [tedwcy/proxy-plugins/issues](https://github.com/tedwcy/proxy-plugins/issues)
+
+请提供:
+1. 涉及的具体脚本 / 文件名
+2. 侵权依据 (原文链接 / 投诉来源)
+3. 你的身份证明 (原作者 / 代理人 / 平台)
+
+脚本原作者归属以各 `.plugin` 文件的 `#!homepage=` 字段为准,本仓库仅作 Loon 适配与维护。
+
 ## 目录约定
 
 ```
@@ -10,6 +26,7 @@ loon/             ← Loon 插件
   <script>/       ← 每个脚本一个子目录
     <script>.js       ← 主脚本 (Loon script-path 用)
     <script>.plugin   ← Loon 配置文件 (从 URL 安装用)
+loon-vista/       ← 历史偏差: vista 插件放在这(不服从 loon/<script>/ 约定)
 ```
 
 未来扩展: `surge/`, `shadowrocket/`, `stash/` 等子目录,每个脚本独立子目录。
@@ -46,13 +63,9 @@ https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/<name>.png
 | 字段 | 用途 | 格式 |
 |------|------|------|
 | `#!name=` | 显示名 | 简洁中文 |
-| `#!desc=` | **统一格式** | `YYYY-MM-DD · 功能说明 + 注意事项` |
+| `#!desc=` | **统一格式** | `v1.0.X · YYYY-MM-DD HH:MM · 功能说明 + 注意事项` |
 | `#!homepage=` | 原脚本来源 | GitHub / TG / 其他 |
 | `#!icon=` | 图标 (推荐) | HTTPS URL, 来自 `icons/` 目录 |
-
-**desc 格式示例**:
-- `v1.0.12 · 2026-08-13 17:08 · 解锁 Gold 订阅 (365 天历史/去广告/无限追踪),需先用免费账户登录` (FR24)
-- `v1.0.12 · 2026-08-13 17:08 · 解锁 VIP (全内容/去广告),需先登录免费账户` (egdd)
 
 **版本号 + 时间戳规范** (2026-08-13 立):
 - 格式：`v1.0.X · YYYY-MM-DD HH:MM · 功能描述`
@@ -64,8 +77,14 @@ https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/<name>.png
 
 ## 当前脚本
 
-- `loon/flightradar24/` - Flightradar24 移动端 VIP 解锁 (基于 ddgksf2013 QX 脚本)
-- `loon/egdd/` - 儿歌点点 VIP 解锁 (基于 89996462 QX 脚本)
+| Plugin | URL | 基于 |
+|---|---|---|
+| `loon/flightradar24/` | Flightradar24 移动端 VIP 解锁 | ddgksf2013 QX 脚本 |
+| `loon/egdd/` | 儿歌点点 VIP 解锁 | 89996462 QX 脚本 |
+| `loon/caiyun/` | 彩云天气 Pro SVIP 解锁 | Loon 原生改写 |
+| `loon/caiyun-cyapi/` | 彩云天气(普通版) SVIP + 去广告 | 墨鱼手记 ddgksf2013 |
+| `loon/iringo-weather/` | iOS 天气全部功能 (空气质量/小时降水/天气预警) | NSRingo/iRingo |
+| `loon-vista/` | Vista 看天下 VIP 解锁 | 自研(基于真实抓包) |
 
 ## 工作流
 
@@ -81,3 +100,22 @@ https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/<name>.png
 [你] Loon → 插件 → 从 URL 安装 → 填 plugin URL
    下次原生作者更新 → 我重做 → 你重装即可
 ```
+
+## 侵权投诉模板
+
+收到后会优先处理:
+
+```
+收件人: ted1992@live.cn
+主题: [proxy-plugins 侵权投诉] <script 名>
+
+正文:
+- 投诉人: <姓名 / 公司>
+- 联系方式: <邮箱>
+- 涉及脚本: <plugin / 路径,例如 loon/flightradar24/>
+- 侵权依据: <原文链接 / 版权证明 / 平台投诉 ID>
+- 要求: <删除 / 修改 / 注明出处>
+- 时间: <YYYY-MM-DD>
+```
+
+Ted 会在 24 小时内核实并删除 / 修改。
