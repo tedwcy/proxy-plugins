@@ -38,35 +38,36 @@ if (typeof $response === 'undefined') {
     }
 
     $done({ url: newUrl, headers: newHeaders });
-    return;
+  } else {
+    $done({});
   }
-  $done({});
-  return;
+} else {
+  // === http-response: VIP flag 翻 0→1 ===
+  // (content 端点 server 已返 free flag,这步是 no-op;vip/my 等端点有用)
+  const body = $response.body;
+  if (!body) {
+    $done({});
+  } else {
+    const newBody = body
+      // VIP 身份字段
+      .replace(/"isVip":0/g, '"isVip":1')
+      .replace(/"isActive":0/g, '"isActive":1')
+      .replace(/"isMiniVip":0/g, '"isMiniVip":1')
+      .replace(/"expireVip":1/g, '"expireVip":0')
+      .replace(/"endTime":\d{13}/g, '"endTime":4100726622000')
+      .replace(/"isLogin":1/g, '"isLogin":0')           // app 误以为未登录,少触发 paywall
+      // 内容付费字段
+      .replace(/"isFree":0/g, '"isFree":1')
+      .replace(/"isfree":0/g, '"isfree":1')             // 小写! 整本杂志
+      .replace(/"isFreeMag":0/g, '"isFreeMag":1')
+      .replace(/"isBuyMag":0/g, '"isBuyMag":1')
+      .replace(/"isBuyArticle":0/g, '"isBuyArticle":1')
+      .replace(/"isPreview":0/g, '"isPreview":1')
+      // 价格
+      .replace(/"price":\d+/g, '"price":0')
+      .replace(/"originalPrice":\d+/g, '"originalPrice":0')
+      .replace(/"isNew":0/g, '"isNew":1');
+
+    $done({ body: newBody });
+  }
 }
-
-// === http-response: VIP flag 翻 0→1 ===
-// (content 端点 server 已返 free flag,这步是 no-op;vip/my 等端点有用)
-const body = $response.body;
-if (!body) { $done({}); return; }
-
-const newBody = body
-  // VIP 身份字段
-  .replace(/"isVip":0/g, '"isVip":1')
-  .replace(/"isActive":0/g, '"isActive":1')
-  .replace(/"isMiniVip":0/g, '"isMiniVip":1')
-  .replace(/"expireVip":1/g, '"expireVip":0')
-  .replace(/"endTime":\d{13}/g, '"endTime":4100726622000')
-  .replace(/"isLogin":1/g, '"isLogin":0')           // app 误以为未登录,少触发 paywall
-  // 内容付费字段
-  .replace(/"isFree":0/g, '"isFree":1')
-  .replace(/"isfree":0/g, '"isfree":1')             // 小写! 整本杂志
-  .replace(/"isFreeMag":0/g, '"isFreeMag":1')
-  .replace(/"isBuyMag":0/g, '"isBuyMag":1')
-  .replace(/"isBuyArticle":0/g, '"isBuyArticle":1')
-  .replace(/"isPreview":0/g, '"isPreview":1')
-  // 价格
-  .replace(/"price":\d+/g, '"price":0')
-  .replace(/"originalPrice":\d+/g, '"originalPrice":0')
-  .replace(/"isNew":0/g, '"isNew":1');
-
-$done({ body: newBody });
