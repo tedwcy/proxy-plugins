@@ -1,8 +1,9 @@
 #!name=Vista 看天下 VIP 解锁
-#!desc=2026-08-13 · 解锁 VistaKTX 全功能 (含 isfree 小写/isFreeMag/isBuyMag/isBuyArticle),基于真实抓包
+#!desc=2026-08-13 · 解锁 VistaKTX 全文 (content 端点去 ktxToken,评论/收藏保留登录态)
 #!homepage=https://yfamilys.com
-#!icon=https://raw.githubusercontent.com/deezertidal/private/main/icons/vista.png
+#!icon=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/vista.png
 [MITM]
 hostname=ktx.cn, open3.vistastory.com
 [Script]
+http-request ^https?:\/\/ktx\.cn\/v3\/api\/(article|magazine|featured)\/ requires-body=0,script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon-vista/vista.js
 http-response ^https?:\/\/ktx\.cn\/v3\/api\/(vip\/|my\/home\/|article\/|magazine\/|index\/|popup\/|adm\/|featured\/|mag\/pdf\/show_pdf) requires-body=1,script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon-vista/vista.js
