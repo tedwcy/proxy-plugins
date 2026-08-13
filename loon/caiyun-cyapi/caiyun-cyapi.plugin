@@ -1,8 +1,0 @@
-#!name=彩云天气(普通版)SVIP 解锁
-#!desc=v1.0.0 · 2026-08-13 17:30 · 解锁彩云天气 SVIP + 去广告,适合普通版彩云天气 app
-#!homepage=https://yfamily.ml
-#!icon=https://raw.githubusercontent.com/deezertidal/private/main/icons/caiyun.png
-[MITM]
-hostname=biz.cyapi.cn
-[Script]
-http-response ^https?:\/\/biz\.cyapi\.cn\/ requires-body=1,script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon/caiyun-cyapi/caiyun_json.js
