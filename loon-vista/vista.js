@@ -88,10 +88,8 @@ if (typeof $response === 'undefined') {
       .replace(/"price":\d+/g, '"price":0')
       .replace(/"originalPrice":\d+/g, '"originalPrice":0')
       .replace(/"isNew":1/g, '"isNew":0')
-      // 清空 PDF 加密密码 (mag/pdf/get_mag_pdf 响应里 magPdf.pwd)
-      // 抓验证: `pwd` 字段仅在 mag/pdf/get_mag_pdf 响应里出现 1 次,跨所有 8 次抓包 (2026-08-14)
-      // 因为 pdfPageList 是嵌套数组,不能用 [^{}]+ 跨嵌套 — 直接全局替换即可
-      .replace(/"pwd":"[^"]+"/g, '"pwd":""')
+      // v1.0.16: 不再清空 pwd — 实测清空后 PDF 只显示 5 页 (zip 头部 fallback),
+      // pwd 是 PDF 文件的真实解密 hash,app 必须用原始密码去解密 OSS 上的 PDF 文件
       // 清空 recommentMag 推荐杂志对象
       // article_detail2 响应顶层有这个字段,isfree:0 触发文章底部"开通VIP"banner
       // 该对象在当前 server 返回里只有平铺字段(无嵌套 dict),[^{}]+ 安全覆盖整段
