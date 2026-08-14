@@ -81,9 +81,6 @@ https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/<name>.png
 |---|---|---|
 | `loon/flightradar24/` | Flightradar24 移动端 VIP 解锁 | ddgksf2013 QX 脚本 |
 | `loon/egdd/` | 儿歌点点 VIP 解锁 | 89996462 QX 脚本 |
-| `loon/caiyun/` | 彩云天气 Pro SVIP 解锁 | Loon 原生改写 |
-| `loon/caiyun-cyapi/` | 彩云天气(普通版) SVIP + 去广告 | 墨鱼手记 ddgksf2013 |
-| `loon/iringo-weather/` | iOS 天气全部功能 (空气质量/小时降水/天气预警) | NSRingo/iRingo |
 | `loon-vista/` | Vista 看天下 VIP 解锁 | 自研(基于真实抓包) |
 
 ## 工作流
