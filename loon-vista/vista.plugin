@@ -1,5 +1,5 @@
 #!name=Vista 看天下 VIP 解锁
-#!desc=v1.0.17 · 2026-08-14 14:25 · 全文 + 首页 banner + tab 红点修复 + console.log 标识版本 + 诊断 Loon cache (PDF 5 页无法修)
+#!desc=v1.0.18 · 2026-08-14 14:47 · 全文 + 首页 banner + 电纸刊按钮; 去红点处理(由 server 决定); PDF 5 页根因在 OSS 文件本身
 #!homepage=https://yfamilys.com
 #!icon=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/vista.png
 [MITM]
