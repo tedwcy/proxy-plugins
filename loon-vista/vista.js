@@ -1,14 +1,17 @@
 // Vista 看天下 (VistaKTX) SVIP 解锁
-// v1.0.12 · 2026-08-13 17:08
-// 关键策略 (基于 Ted 第 5 次登出态抓包 2026-08-13 08:00):
+// v1.0.13 · 2026-08-14 11:36
+// 关键策略 (基于 Ted 第 5 次登出态抓包 2026-08-13 08:00 + 第 6 次首页 banner 抓包 2026-08-14 11:14):
 //   1. http-request: GET 请求去掉 ktxToken (保留用户信息端点),让 server 当登出态
+//      popup/adm 加入保留名单 — 完全无 token server 返 400 会触发 app 弹窗异常
 //   2. http-response: 翻 VIP 相关 flag,避免 UI 显示订阅 banner
+//      新增清空 recommentMag 对象 — article_detail2 顶层 recommentMag.isfree:0 触发底部"开通VIP"banner
 //   评论/收藏等 POST 请求不动 ktxToken,所以评论功能不受影响
 //
-// Ted 5 次真实抓包时间线:
-//   - 22:51 / 22:57: 初步解构
-//   - 07:08 / 07:14: 登入态 (content 3678 = 试看)
-//   - 08:00: 登出态 (content 6073 = 全文, 全 free flag)
+// Ted 6 次真实抓包时间线:
+//   - 22:51 / 22:57 (08-12): 初步解构
+//   - 07:08 / 07:14 (08-13): 登入态 (content 3678 = 试看)
+//   - 08:00 (08-13): 登出态 (content 6073 = 全文, 全 free flag)
+//   - 11:14 (08-14): 首页文章底部 banner 复发 → recommentMag 未清 (v1.0.13 修复)
 
 const url = $request.url;
 
@@ -19,11 +22,13 @@ if (typeof $response === 'undefined') {
   const method = $request.method;
 
   // 保留 ktxToken 的端点 (需要登录态)
-  // vip/       : VIP 信息
-  // subscription/ : 订阅状态
-  // my/        : "我的" 个人中心
-  // user/      : 用户相关 (评分等)
-  const keepKtxToken = /^https?:\/\/ktx\.cn\/v3\/api\/(vip|subscription|my|user)\//;
+  // vip/           : VIP 信息
+  // subscription/  : 订阅状态
+  // my/            : "我的" 个人中心
+  // user/          : 用户相关 (评分等)
+  // popup/         : 弹窗配置 (无 token server 返 400,会触发 app 弹窗逻辑异常)
+  // adm/           : 广告位 (同上)
+  const keepKtxToken = /^https?:\/\/ktx\.cn\/v3\/api\/(vip|subscription|my|user|popup|adm)\//;
 
   // 其他 GET 请求都剥 (POST 评论/点赞保留)
   if (method === 'GET' && !keepKtxToken.test(url)) {
@@ -74,7 +79,13 @@ if (typeof $response === 'undefined') {
       // 价格
       .replace(/"price":\d+/g, '"price":0')
       .replace(/"originalPrice":\d+/g, '"originalPrice":0')
-      .replace(/"isNew":0/g, '"isNew":1');
+      .replace(/"isNew":0/g, '"isNew":1')
+      // 清空 recommentMag 推荐杂志对象
+      // article_detail2 响应顶层有这个字段,isfree:0 触发文章底部"开通VIP"banner
+      // 该对象在当前 server 返回里只有平铺字段(无嵌套 dict),[^{}]+ 安全覆盖整段
+      // 风险: 未来若 server 在 recommentMag.articleList: [{...}] 加嵌套数组,regex 会切到一半
+      //       但 recommentMag 跟完整 mag 对象结构不同(只用压缩字段),触发概率极低
+      .replace(/"recommentMag":\{[^{}]+\}/g, '"recommentMag":null');
 
     $done({ body: newBody });
   }
