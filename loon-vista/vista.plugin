@@ -1,5 +1,5 @@
 #!name=Vista 看天下 VIP 解锁
-#!desc=v1.0.15 · 2026-08-14 12:03 · 解锁 VistaKTX 全文 + 干掉首页 banner + 干掉底部 tab 红点 + 干掉电纸刊"10 解锁整本"按钮 + 清空 PDF 密码
+#!desc=v1.0.16 · 2026-08-14 12:13 · 全文 + 首页 banner + tab 红点 + 电纸刊"开通VIP"按钮 + PDF 完整 98 页 (回退 pwd 清空)
 #!homepage=https://yfamilys.com
 #!icon=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/vista.png
 [MITM]
