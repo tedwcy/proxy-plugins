@@ -79,7 +79,7 @@ if (typeof $response === 'undefined') {
       // 价格
       .replace(/"price":\d+/g, '"price":0')
       .replace(/"originalPrice":\d+/g, '"originalPrice":0')
-      .replace(/"isNew":0/g, '"isNew":1')
+      .replace(/"isNew":1/g, '"isNew":0')
       // 清空 recommentMag 推荐杂志对象
       // article_detail2 响应顶层有这个字段,isfree:0 触发文章底部"开通VIP"banner
       // 该对象在当前 server 返回里只有平铺字段(无嵌套 dict),[^{}]+ 安全覆盖整段
