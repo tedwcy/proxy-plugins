@@ -1,5 +1,5 @@
 #!name=Vista 看天下 VIP 解锁
-#!desc=v1.0.16 · 2026-08-14 12:13 · 全文 + 首页 banner + tab 红点 + 电纸刊"开通VIP"按钮 + PDF 完整 98 页 (回退 pwd 清空)
+#!desc=v1.0.17 · 2026-08-14 14:25 · 全文 + 首页 banner + tab 红点修复 + console.log 标识版本 + 诊断 Loon cache (PDF 5 页无法修)
 #!homepage=https://yfamilys.com
 #!icon=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/vista.png
 [MITM]

@@ -23,7 +23,7 @@
 const url = $request.url;
 
 // === Version log (Ted 验证用:Loon 脚本日志里能看到) ===
-console.log('[Vista] v1.0.12 loaded');
+console.log('[Vista] v1.0.17 loaded (red-dot fix ACTIVE — if you see v1.0.12, Loon cache stale)');
 
 if (typeof $response === 'undefined') {
   const method = $request.method;
