@@ -1,9 +1,9 @@
 #!name=Tideline
-#!desc=v1.0.0 · 2026-08-16 · 页面精简 + 屏蔽推广元素
+#!desc=v1.1.0 · 2026-08-16 · 页面精简 + 屏蔽推广元素
 #!homepage=https://github.com/tedwcy/proxy-plugins
 [MITM]
-hostname=91porn.com, fans.91selfie.com
+hostname=91porn.com, fans.91selfie.com, poweredby.jads.co, go.rmhfrtnd.com, s1.kwai.net
 [Script]
-http-response ^https?:\/\/91porn\.com\/js\/(jquery\.cookie|overHang\.min5|indexonly|m)\.js requires-body=1,script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon/tideline/tideline.js, tag=91porn-js, timeout=10
+http-response ^https?:\/\/91porn\.com\/js\/(jquery\.cookie|overHang\.min5|indexonly|m2?)\.js requires-body=1,script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon/tideline/tideline.js, tag=91porn-js, timeout=10
 http-response ^https?:\/\/91porn\.com\/(index\.php|view_video\.php)?(\?|$|/) requires-body=1,script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon/tideline/tideline.js, tag=91porn-html, timeout=10
-http-response ^https?:\/\/fans\.91selfie\.com\/ requires-body=1,script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon/tideline/tideline.js, tag=91porn-fans, timeout=10
+http-response ^https?:\/\/(fans\.91selfie\.com|poweredby\.jads\.co|go\.rmhfrtnd\.com|s1\.kwai\.net)\/ requires-body=1,script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon/tideline/tideline.js, tag=91porn-adnet, timeout=10
