@@ -116,3 +116,40 @@ https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/<name>.png
 ```
 
 Ted 会在 24 小时内核实并删除 / 修改。
+
+---
+
+## Spotify 繁简转换 (spotify-t2s)
+
+把 Spotify 的繁体中文歌词本地转成简体中文。**0 外部 API、0 配额、0 secret**。
+
+文件: [`loon/spotify-t2s/spotify-t2s.js`](loon/spotify-t2s/spotify-t2s.js) (~122 KB)
+
+### 工作原理
+
+Hook Spotify `color-lyrics/v2/track/` (返回 protobuf 二进制),只在 `lyrics.language === 'z2'` (繁体) 时,用 OpenCC tw2s 把每行 words 转简体,然后改 `language = 'z1'` 返回。其他语言 (en/ja/ko/z1) 完全 pass-through。
+
+### Loon 配置
+
+```
+[Mitm]
+hostname = spclient.wg.spotify.com
+
+[Script]
+http-response ^https:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/ script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon/spotify-t2s/spotify-t2s.js, requires-body=true, binary-body-mode=true, timeout=10, tag=Spotify繁简转换
+```
+
+### Surge 配置
+
+```
+[MITM]
+hostname = %APPEND% spclient.wg.spotify.com
+
+[Script]
+spotify-t2s = type=http-response,pattern=^https:\/\/spclient\.wg\.spotify\.com\/color-lyrics\/v2\/track\/,requires-body=1,binary-body-mode=1,max-size=0,script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon/spotify-t2s/spotify-t2s.js
+```
+
+### 已知限制
+
+- tw2s 是**字形级**转换(`軟體→软体`,不是 `软件`)。如要台湾→大陆用语替换,改字典即可
+- 失败时 Loon 日志会显示 `Spotify繁简转换异常` + 异常 message
