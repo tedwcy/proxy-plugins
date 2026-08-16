@@ -1,5 +1,5 @@
 #!name=Spotify Premium Unlock
-#!desc=v1.0.1 · 2026-08-16 13:25 · 部分解锁premium(基于 app2smile/rules 最新代码,独立维护版;出现新校验端点时参考公开抓包迭代更新)
+#!desc=v1.0.2 · 2026-08-16 13:28 · 部分解锁premium(基于 app2smile/rules 最新代码,独立维护版;出现新校验端点时参考公开抓包迭代更新)
 #!icon=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/Spotify.png
 #!homepage=https://github.com/tedwcy/proxy-plugins/tree/main/loon/spotify-unlock
 [Mitm]

@@ -1,5 +1,5 @@
 #!name=Spotify 繁简转换
-#!desc=v1.0.3 · 2026-08-16 13:25 · 繁体/简体歌词 → 简体中文(完整歌词 + 底部预览;OpenCC tw2s,本地查表,0 API/0 配额/0 secret)
+#!desc=v1.0.4 · 2026-08-16 13:28 · 繁体/简体歌词 → 简体中文(完整歌词 + 底部预览;OpenCC tw2s,本地查表,0 API/0 配额/0 secret)
 #!homepage=https://github.com/tedwcy/proxy-plugins/tree/main/loon/spotify-t2s
 #!icon=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/Spotify.png
 [MITM]
