@@ -211,10 +211,9 @@ if (resStatus !== 200) {
 
         if (!obj.lyrics || !obj.lyrics.lines || obj.lyrics.lines.length === 0) {
             $done({});
-        } else if (obj.lyrics.language === 'z1') {
-            $done({});
-        } else if (obj.lyrics.language === 'z2') {
-            // 繁体 → 简体
+        } else if (obj.lyrics.language && obj.lyrics.language.charAt(0) === 'z') {
+            // 中文 (z1/z2/z3/z4...) → 简体
+            // Spotify 把繁体也标成 z1,所以不能只看 z2;tw2cn 对已简体是 idempotent,可以直接转
             let count = 0;
             for (const line of obj.lyrics.lines) {
                 if (line.words) {
@@ -235,7 +234,7 @@ if (resStatus !== 200) {
                 }
             }
             obj.lyrics.language = 'z1';
-            console.log(`Spotify繁简转换: z2→z1, ${count}行`);
+            console.log(`Spotify繁简转换: ${obj.lyrics.language}→z1, ${count}行`);
 
             const body = ColorLyricsResponse.toBinary(obj);
             if (isQX) {
