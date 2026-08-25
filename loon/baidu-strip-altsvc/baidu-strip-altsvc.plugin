@@ -1,0 +1,8 @@
+#!name=百度地图 Alt-Svc 剥离
+#!desc=v1.0.0 · 2026-08-25 12:33 · 删 baidu map 响应里的 Alt-Svc，避免 iOS 因 QUIC 握手超时卡搜索框(每个 keystroke 省 5-10s)
+#!homepage=https://github.com/tedwcy/proxy-plugins/tree/main/loon/baidu-strip-altsvc
+#!icon=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/BaiduMaps.png?v=1
+[MITM]
+hostname = *.baidu.com, baidu.com
+[Script]
+http-response ^https?:\/\/[^\/]*baidu\.com(:[0-9]+)?\/ script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon/baidu-strip-altsvc/baidu-strip-altsvc.js, requires-body=false, timeout=10, tag=百度地图剥离Alt-Svc
