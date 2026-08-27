@@ -1,7 +1,7 @@
 #!name=Vista 看天下 VIP 解锁
-#!desc=v1.0.18 · 2026-08-14 14:47 · 全文 + 首页 banner + 电纸刊按钮; 去红点处理(由 server 决定); PDF 5 页根因在 OSS 文件本身
+#!desc=v1.0.19 · 2026-08-27 11:08 · 全文 + 首页 banner + 电纸刊按钮; 去红点处理(由 server 决定); PDF 5 页根因在 OSS 文件本身; 图标改用官方 app icon + 加 ?v=N cache-buster
 #!homepage=https://yfamilys.com
-#!icon=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/vista.png
+#!icon=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/kantianxia.png?v=1
 [MITM]
 hostname=ktx.cn, open3.vistastory.com
 [Script]
