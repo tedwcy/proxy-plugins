@@ -1,0 +1,8 @@
+#!name=看天下 去开屏广告
+#!desc=v1.0.0 · 2026-08-27 10:56 · 启动广告 loading_ad2 + 弹窗广告 adm/get_popup_ad 返回空; 不影响其他接口; 与 loon-vista/ VIP 解锁插件可叠加
+#!homepage=https://github.com/tedwcy/proxy-plugins/tree/main/loon/kantianxia-noad
+#!icon=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/kantianxia.png?v=1
+[MITM]
+hostname = ktx.cn
+[Script]
+http-response ^https?:\/\/ktx\.cn\/v3\/api\/(index\/loading_ad2|adm\/get_popup_ad)(\?|$) requires-body=1, script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon/kantianxia-noad/kantianxia-noad.js, tag=看天下去广告, timeout=10

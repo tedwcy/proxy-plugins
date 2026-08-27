@@ -82,6 +82,7 @@ https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/<name>.png
 | `loon/flightradar24/` | Flightradar24 移动端 VIP 解锁 | ddgksf2013 QX 脚本 |
 | `loon/egdd/` | 儿歌点点 VIP 解锁 | 89996462 QX 脚本 |
 | `loon-vista/` | Vista 看天下 VIP 解锁 | 自研(基于真实抓包) |
+| `loon/kantianxia-noad/` | 看天下 去开屏广告 | 自研(基于真实抓包) |
 
 ## 工作流
 
