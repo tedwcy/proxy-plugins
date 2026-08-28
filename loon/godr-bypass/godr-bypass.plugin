@@ -1,0 +1,8 @@
+#!name=godr (GO DaVinci) - 离线会员解锁
+#!desc=v1.0.0 · 2026-08-28 22:13 · 拦截 godr.cc membership.php?action=check,把 allowed 改 true 并伪装 userType 至所需 tier。仅个人离线学习用
+#!homepage=
+#!icon=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/godr.png?v=1
+[MITM]
+hostname = godr.cc
+[Script]
+http-response ^https?:\/\/godr\.cc\/api\/V1\/godr\/membership\.php\?action=check requires-body=true, script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon/godr-bypass/godr-bypass.js, tag=godr-membership, timeout=10
