@@ -1,0 +1,10 @@
+#!name=Google Rewrite
+#!desc=v1.0.0 · 2026-09-07 14:48 · 把 google.cn / g.cn / google.co.jp / google.com.hk 重定向到 google.com (或 /ncr), 去除搜索结果里的区域跳转提示
+#!homepage=https://github.com/tedwcy/proxy-plugins/tree/main/loon/google-rewrite
+#!icon=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/google.png?v=1
+[URL Rewrite]
+^https?:\/\/(www.)?(g|google)\.cn https://www.google.com 302
+^https:\/\/www\.google\.co\.jp https://www.google.com 302
+^https:\/\/www\.google\.com\.hk\/ https://www.google.com/ncr 302
+[MITM]
+hostname = *.google.com.hk, *.g.cn, *.google.cn, *.google.co.jp
