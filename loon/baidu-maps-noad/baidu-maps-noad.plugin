@@ -1,8 +1,8 @@
 #!name=Baidu Maps 去广告
-#!desc=v1.1.0 · 2026-09-15 00:30 · MITM 广告域名 (afdconf splash + ecom/integralwall in-page + newclient rich_content 顶部文字条 + QChannel + Admaster), SSL pin 失败 + 改写 /feed/govui/rich_content
+#!desc=v1.2.0 · 2026-09-15 00:36 · MITM 广告域名 + 改写 /cms/page/def (顶部 banner) 和 /feed/govui/rich_content (笔记列表)。SSL pin 失败 + 改写双管齐下
 #!homepage=https://github.com/tedwcy/proxy-plugins/tree/main/loon/baidu-maps-noad
-#!icon=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/BaiduMaps.png?v=2
+#!icon=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/BaiduMaps.png?v=3
 [MITM]
 hostname = ecom.map.baidu.com, integralwall.baidu.com, afdconf.baidu.com, newclient.map.baidu.com, i.qchannel03.cn, nsclick.baidu.com, usr-api.yunxish.com, logrcv.yunxish.com
 [Script]
-http-response ^https?:\/\/newclient\.map\.baidu\.com\/feed\/govui\/rich_content requires-body=true, script-path=baidu-maps-noad.js, tag=baidu-rich-content, timeout=10
+http-response ^https?:\/\/newclient\.map\.baidu\.com\/(feed\/govui\/rich_content|cms\/page\/def) requires-body=true, script-path=baidu-maps-noad.js, tag=baidu-rich-content, timeout=10
