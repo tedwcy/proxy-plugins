@@ -1,0 +1,6 @@
+#!name=Baidu Maps 去广告
+#!desc=v1.0.0 · 2026-09-15 00:21 · MITM 广告域名 (afdconf splash + ecom/integralwall in-page + QChannel + Admaster), 利用 SSL pin 失败让广告 SDK 静默退出。无 script 改写, 启用后必须冷启动 app
+#!homepage=https://github.com/tedwcy/proxy-plugins/tree/main/loon/baidu-maps-noad
+#!icon=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/BaiduMaps.png?v=1
+[MITM]
+hostname = ecom.map.baidu.com, integralwall.baidu.com, afdconf.baidu.com, i.qchannel03.cn, nsclick.baidu.com, usr-api.yunxish.com, logrcv.yunxish.com
