@@ -1,0 +1,8 @@
+#!name=Bilibili 去开屏广告
+#!desc=v1.0.0 · 2026-09-16 22:01 · MITM app.bilibili.com + 清空 /x/v2/splash/list 响应里的 data.list (splash 库存) 和 data.show (当前激活). brand/list (节日主题) 保留不动
+#!homepage=https://github.com/tedwcy/proxy-plugins/tree/main/loon/bilibili-noad
+#!icon=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/Bilibili.png?v=1
+[MITM]
+hostname = app.bilibili.com
+[Script]
+http-response ^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/(list|show)(\?|$) requires-body=true, script-path=bilibili-noad.js, tag=bili-splash, timeout=10
