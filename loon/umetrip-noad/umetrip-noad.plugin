@@ -1,0 +1,8 @@
+#!name=Umetrip 去开屏广告
+#!desc=v1.0.0 · 2026-09-16 22:20 · MITM umestartup.umetrip.com, 把 protobuf 响应里的 adBlackList 从 "0" 改成 "1" + advertImageTimeout/advertTotalTimeout 改成 "0000" (立即超时). 等长度替换保持 protobuf 结构不变
+#!homepage=https://github.com/tedwcy/proxy-plugins/tree/main/loon/umetrip-noad
+#!icon=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/icons/Umetrip.png?v=1
+[MITM]
+hostname = umestartup.umetrip.com
+[Script]
+http-response ^https?:\/\/umestartup\.umetrip\.com\/ requires-body=true, script-path=umetrip-noad.js, tag=umetrip-noad, timeout=10
