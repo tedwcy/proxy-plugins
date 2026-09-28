@@ -14,7 +14,7 @@ Vista 看天下杂志 (iOS) VIP 解锁的 Quantumult-X 版本。
 
 直接复用 `loon-vista/vista.js`（同一 JavaScriptCore 运行时兼容）。
 
-源代码：https://github.com/tedwcy/proxy-plugins/tree/main/quantumultx/loon-vista
+源代码：https://github.com/tedwcy/proxy-plugins/tree/main/quantumultx/vista
 
 ## 关联 plugin
 
