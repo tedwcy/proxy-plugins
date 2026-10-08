@@ -43,7 +43,7 @@ Loon → 配置 → 插件 → 右上 + → 通过 URL 添加插件。
 
 - `google.com.hk` 用强制跳转（匹配根路径），如果 Ted 有时需要直访 google.com.hk 看本地结果，建议在 plugin 详情里暂时禁用这条规则
 - 不影响其他 Google 服务域名（gmail / maps / drive 等仍按各自区域走）
-- 仅 iOS Loon 验证。其他代理工具（Surge / Quantumult X / Shadowrocket）的 `[URL Rewrite]` 语法基本兼容，但需测试
+- 仅 iOS Loon 验证。其他代理工具（Surge / QX / Shadowrocket）的 `[URL Rewrite]` 语法基本兼容，但需测试
 
 ## 版本
 

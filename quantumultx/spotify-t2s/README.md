@@ -1,10 +1,10 @@
-# spotify-t2s (QuantumultX 版)
+# spotify-t2s (QX / Quantumult X 版)
 
 Spotify 繁体歌词 → 简体中文（完整歌词 + 底部预览）。
 
 ## 安装
 
-把 `spotify-t2s.conf` 的两段内容复制到你的 QuantumultX 配置里：
+把 `spotify-t2s.conf` 的两段内容复制到你的 QX 配置里：
 
 ```ini
 [filter_local]
@@ -14,7 +14,7 @@ hostname = spclient.wg.spotify.com, *-spclient.spotify.com
 ^https?:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/color-lyrics\/v2\/track\/ script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon/spotify-t2s/spotify-t2s.js, requires-body=true, binary-body-mode=true, tag=Spotify繁简转换, timeout=10
 ```
 
-QuantumultX 需要开启 MITM。
+QX 需要开启 MITM。
 
 ## 与 Loon 版关系
 

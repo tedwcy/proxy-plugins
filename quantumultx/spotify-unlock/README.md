@@ -1,4 +1,4 @@
-# spotify-unlock (QuantumultX 版)
+# spotify-unlock (QX / Quantumult X 版)
 
 Spotify Premium Unlock — 部分解锁。
 
@@ -8,7 +8,7 @@ Spotify Premium Unlock — 部分解锁。
 
 ## 安装
 
-把 `spotify-unlock.conf` 的三段内容复制到你的 QuantumultX 配置里：
+把 `spotify-unlock.conf` 的三段内容复制到你的 QX 配置里：
 
 ```ini
 [filter_local]
@@ -21,7 +21,7 @@ hostname = spclient.wg.spotify.com, *-spclient.spotify.com
 ^https?:\/\/(spclient\.wg\.spotify\.com|.*-spclient\.spotify\.com(:443)?)\/(bootstrap\/v1\/bootstrap|user-customization-service\/v1\/customize)$ script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon/spotify-unlock/spotify-proto.js, requires-body=true, binary-body-mode=true, timeout=10, tag=spotifyProto
 ```
 
-QuantumultX 需要开启 MITM。
+QX 需要开启 MITM。
 
 ## 与 Loon 版关系
 

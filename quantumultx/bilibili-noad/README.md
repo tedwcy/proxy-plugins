@@ -1,4 +1,4 @@
-# bilibili-noad (QuantumultX 版)
+# bilibili-noad (QX / Quantumult X 版)
 
 B站 (iOS v9.12.0+) 去掉启动时的开屏广告（全屏图片 + 倒计时跳过按钮）。
 
@@ -17,7 +17,7 @@ B站 (iOS v9.12.0+) 去掉启动时的开屏广告（全屏图片 + 倒计时跳
 
 ## 安装
 
-把 `bilibili-noad.conf` 的两段内容复制到你的 QuantumultX 配置里：
+把 `bilibili-noad.conf` 的两段内容复制到你的 QX 配置里：
 
 ```ini
 [filter_local]
@@ -27,7 +27,7 @@ hostname = app.bilibili.com
 ^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/(list|show)(\?|$) script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/quantumultx/bilibili-noad/bilibili-noad.js, requires-body=true, tag=bili-splash, timeout=10
 ```
 
-QuantumultX 需要开启 MITM（设置 → HTTPS 解密 → 启用）。
+QX 需要开启 MITM（设置 → HTTPS 解密 → 启用）。
 
 启用后**杀掉 + 冷启动 B站 app**。
 
@@ -40,11 +40,11 @@ Loon 脚本日志应该看到：
 [BilibiliNoAd] clear data.show: 7 → 0
 ```
 
-QuantumultX 类似——在 QuantumultX 日志里找 `bili-splash` tag 的输出。
+QX 类似——在 QX 日志里找 `bili-splash` tag 的输出。
 
 ## 与 Loon 版关系
 
-这是 `loon/bilibili-noad/bilibili-noad.plugin` v1.0.0 的 QuantumultX 移植版。脚本文件直接可移植（两平台 JavaScriptCore 运行时一致），主要差别是 config 段格式。
+这是 `loon/bilibili-noad/bilibili-noad.plugin` v1.0.0 的 QX 移植版。脚本文件直接可移植（两平台 JavaScriptCore 运行时一致），主要差别是 config 段格式。
 
 源代码：https://github.com/tedwcy/proxy-plugins/tree/main/quantumultx/bilibili-noad
 

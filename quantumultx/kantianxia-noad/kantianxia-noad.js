@@ -1,8 +1,8 @@
 // 看天下 (VistaKTX / com.vistastory.VistaKTX) 去除开屏广告 + 弹窗广告
-// Quantumult-X 版 v1.0.3 · 2026-10-08
+// QX (Quantumult X) 版 v1.0.3 · 2026-10-08
 //
 // 从 loon/kantianxia-noad/kantianxia-noad.js v1.0.0 移植, 改动:
-//   1. 用 IIFE 包裹 (QX X JSCore 严格模式更稳, 避开顶层 return 等坑)
+//   1. 用 IIFE 包裹 (QX JSCore 严格模式更稳, 避开顶层 return 等坑)
 //   2. JSON.parse 失败 → 立即 $done({}) return, 不再 continue
 //   3. ad / popup 字段名扩展: 兼容 body.ad / body.popup / body.splash / body.startupAd
 //      / body.bannerAd / body.splashAd / body.launchAd 多种可能命名
@@ -24,7 +24,7 @@
 
   const url = $request.url;
 
-  // === Version log (QX X 日志里能看到, 验证 plugin 是否真的加载) ===
+  // === Version log (QX 日志里能看到, 验证 plugin 是否真的加载) ===
   console.log('[KantianxiaNoAd] v1.0.3 loaded');
 
   // http-response 必有 $response, 直接用

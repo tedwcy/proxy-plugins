@@ -1,4 +1,4 @@
-# egdd (QuantumultX 版)
+# egdd (QX / Quantumult X 版)
 
 儿歌点点 (iOS) VIP 解锁。
 
@@ -8,7 +8,7 @@
 
 ## 安装
 
-把 `egdd.conf` 的两段内容复制到你的 QuantumultX 配置里：
+把 `egdd.conf` 的两段内容复制到你的 QX 配置里：
 
 ```ini
 [filter_local]
@@ -18,7 +18,7 @@ hostname = gateway.ergediandian.com
 ^https?:\/\/gateway\.ergediandian\.com\/dduser\/user\/center\/set script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/quantumultx/egdd/egdd.js, requires-body=true, tag=egdd, timeout=10
 ```
 
-QuantumultX 需要开启 MITM。
+QX 需要开启 MITM。
 
 ## 与 Loon 版关系
 

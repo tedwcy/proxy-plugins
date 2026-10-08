@@ -1,4 +1,4 @@
-// Bilibili 去开屏广告 — QuantumultX 版
+// Bilibili 去开屏广告 — QX (Quantumult X) 版
 // v1.0.0 · 2026-09-28
 //
 // 抓包来源: 92_1789401831273.zip (369 条网络记录, iOS 9.12.0 build=91200100)

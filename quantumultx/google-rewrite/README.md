@@ -1,4 +1,4 @@
-# google-rewrite (QuantumultX 版)
+# google-rewrite (QX / Quantumult X 版)
 
 Google 搜索去区域跳转提示。
 
@@ -13,7 +13,7 @@ Google 搜索去区域跳转提示。
 
 ## 安装
 
-把 `google-rewrite.conf` 的两段内容复制到你的 QuantumultX 配置里：
+把 `google-rewrite.conf` 的两段内容复制到你的 QX 配置里：
 
 ```ini
 [filter_local]
@@ -25,11 +25,11 @@ hostname = *.google.com.hk, *.google.co.jp, *.google.cn, *.g.cn
 ^https?:\/\/www\.google\.com\.hk\/ https://www.google.com/ncr 302
 ```
 
-QuantumultX 需要开启 MITM 才能让 `[rewrite]` 在 HTTPS 上生效。
+QX 需要开启 MITM 才能让 `[rewrite]` 在 HTTPS 上生效。
 
 ## 与 Loon 版关系
 
-这是 `loon/google-rewrite/google-rewrite.plugin` v1.0.0 的 QuantumultX 移植版。
+这是 `loon/google-rewrite/google-rewrite.plugin` v1.0.0 的 QX 移植版。
 
 源代码：https://github.com/tedwcy/proxy-plugins/tree/main/quantumultx/google-rewrite
 

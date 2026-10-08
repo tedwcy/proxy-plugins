@@ -1,4 +1,4 @@
-// flightradar24 - Gold 订阅解锁 — QuantumultX 版
+// flightradar24 - Gold 订阅解锁 — QX (Quantumult X) 版
 // v1.0.0 · 2026-09-28
 // 移植自 loon/flightradar24/flightradar24.js
 //

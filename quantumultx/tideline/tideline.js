@@ -1,4 +1,4 @@
-// tideline - 91porn.com 去广告 / 反追踪 — QuantumultX 版
+// tideline - 91porn.com 去广告 / 反追踪 — QX (Quantumult X) 版
 // v1.1.0 · 2026-09-28
 // 移植自 loon/tideline/tideline.js (核心逻辑直接 copy)
 //

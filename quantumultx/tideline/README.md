@@ -1,4 +1,4 @@
-# tideline (QuantumultX 版)
+# tideline (QX / Quantumult X 版)
 
 91porn.com 页面精简 + 屏蔽推广元素（视频页 + 首页 + 弹窗 + 第三方追踪域名）。
 
@@ -13,7 +13,7 @@
 
 ## 安装
 
-把 `tideline.conf` 的四段内容复制到你的 QuantumultX 配置里：
+把 `tideline.conf` 的四段内容复制到你的 QX 配置里：
 
 ```ini
 [filter_local]
@@ -29,7 +29,7 @@ hostname = 91porn.com, fans.91selfie.com, poweredby.jads.co, go.rmhfrtnd.com, s1
 ^https?:\/\/(fans\.91selfie\.com|poweredby\.jads\.co|go\.rmhfrtnd\.com|s1\.kwai\.net)\/ script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/quantumultx/tideline/tideline.js, requires-body=true, tag=91porn-adnet, timeout=10
 ```
 
-QuantumultX 需要开启 MITM。
+QX 需要开启 MITM。
 
 ## 与 Loon 版关系
 

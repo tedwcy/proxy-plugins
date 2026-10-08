@@ -1,6 +1,6 @@
-# vista (Quantumult-X 版)
+# vista (QX / Quantumult X 版)
 
-Vista 看天下杂志 (iOS) VIP 解锁的 Quantumult-X 版本。
+Vista 看天下杂志 (iOS) VIP 解锁的 QX 版本。
 
 ## 功能
 
@@ -24,11 +24,11 @@ Vista 看天下杂志 (iOS) VIP 解锁的 Quantumult-X 版本。
 
 ## 安装
 
-把 `vista.conf` 内容粘贴到 QX X 本地配置（设置 → 配置 → 编辑），或作为「插入资源」加载 URL。
+把 `vista.conf` 内容粘贴到 QX 本地配置（设置 → 配置 → 编辑），或作为「插入资源」加载 URL。
 
 URL：`https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/quantumultx/vista/vista.conf`
 
-QX X 需要开启 MITM（设置 → HTTPS 解密 → 启用）。
+QX 需要开启 MITM（设置 → HTTPS 解密 → 启用）。
 
 ## 版本
 

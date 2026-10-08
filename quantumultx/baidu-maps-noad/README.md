@@ -1,6 +1,6 @@
-# baidu-maps-noad (QuantumultX 版)
+# baidu-maps-noad (QX / Quantumult X 版)
 
-百度地图 (iOS v21.20.30) 去广告插件的 QuantumultX 版本。
+百度地图 (iOS v21.20.30) 去广告插件的 QX 版本。
 
 ## 功能
 
@@ -12,8 +12,8 @@
 
 ## 机制
 
-**纯 MITM SSL pin 失败**。把广告域名加入 QuantumultX 的 MITM 名单：
-- QuantumultX 用自己的 CA 签发证书给 app
+**纯 MITM SSL pin 失败**。把广告域名加入 QX 的 MITM 名单：
+- QX 用自己的 CA 签发证书给 app
 - app SSL pin 检测失败 → HTTPS 连接断 → 广告 SDK 静默失败 → 广告位置渲染为空
 
 ## MITM 域名
@@ -30,20 +30,20 @@
 
 ## 安装
 
-把 `baidu-maps-noad.conf` 的 `[filter_local]` 段内容复制到你的 QuantumultX 配置里：
+把 `baidu-maps-noad.conf` 的 `[filter_local]` 段内容复制到你的 QX 配置里：
 
 ```ini
 [filter_local]
 hostname = ecom.map.baidu.com, integralwall.baidu.com, afdconf.baidu.com, i.qchannel03.cn, nsclick.baidu.com, usr-api.yunxish.com, logrcv.yunxish.com
 ```
 
-QuantumultX 需要开启 MITM（设置 → HTTPS 解密 → 启用）。
+QX 需要开启 MITM（设置 → HTTPS 解密 → 启用）。
 
 启用后**杀掉 + 冷启动百度地图 app**（上滑彻底退出后重开）。
 
 ## 与 Loon 版关系
 
-这是 `loon/baidu-maps-noad/baidu-maps-noad.plugin` v1.3.0 的 QuantumultX 移植版。功能、MITM 域名、机制完全相同。
+这是 `loon/baidu-maps-noad/baidu-maps-noad.plugin` v1.3.0 的 QX 移植版。功能、MITM 域名、机制完全相同。
 
 源代码：https://github.com/tedwcy/proxy-plugins/tree/main/quantumultx/baidu-maps-noad
 

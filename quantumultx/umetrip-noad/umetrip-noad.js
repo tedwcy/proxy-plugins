@@ -1,11 +1,11 @@
-// Umetrip 去开屏广告 — QuantumultX 版
+// Umetrip 去开屏广告 — QX (Quantumult X) 版
 // v1.0.0 · 2026-09-28
 //
 // 抓包来源: 102_1789567600869.zip (386 条网络记录, 航旅纵横 iOS)
 //
 // 目标端点: umestartup.umetrip.com/*
 // 响应格式: Content-Encoding: gzip + Content-Serialize: pb (protobuf)
-//          gzip 已被 QuantumultX 解压, $response.body 是解压后的 protobuf bytes
+//          gzip 已被 QX 解压, $response.body 是解压后的 protobuf bytes
 //          protobuf 内嵌一段完整 JSON 配置 (含广告相关 flag)
 //
 // 策略:

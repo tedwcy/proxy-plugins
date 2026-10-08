@@ -1,4 +1,4 @@
-# flightradar24 (QuantumultX 版)
+# flightradar24 (QX / Quantumult X 版)
 
 Flightradar24 (iOS) Gold 订阅解锁。
 
@@ -11,7 +11,7 @@ Flightradar24 (iOS) Gold 订阅解锁。
 
 ## 安装
 
-把 `flightradar24.conf` 的两段内容复制到你的 QuantumultX 配置里：
+把 `flightradar24.conf` 的两段内容复制到你的 QX 配置里：
 
 ```ini
 [filter_local]
@@ -21,7 +21,7 @@ hostname = mobile.flightradar24.com
 ^https?:\/\/mobile\.flightradar24\.com\/mobile\/(user-session|\w{9}) script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/quantumultx/flightradar24/flightradar24.js, requires-body=true, tag=flightradar24, timeout=10
 ```
 
-QuantumultX 需要开启 MITM。
+QX 需要开启 MITM。
 
 ## 与 Loon 版关系
 

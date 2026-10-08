@@ -10,9 +10,9 @@
 `proxy-plugins` 仓库托管**项目维护者个人用的 iOS app 代理 plugin**，覆盖两个平台：
 
 - **Loon** — 付费 iOS app
-- **Quantumult-X 1.8.0**（**crossutility fork**，**不是**原版 yichahu QuantumultX，那个已停更）
+- **QX 1.8.0**（全称 Quantumult X，**crossutility fork**，**不是**原版 yichahu QX，那个已停更）
 
-每个 plugin 通常两个平台各一份（一对一对应），少数仅 Loon / 仅 QX X。
+每个 plugin 通常两个平台各一份（一对一对应），少数仅 Loon / 仅 QX。
 
 ---
 
@@ -36,7 +36,7 @@ proxy-plugins/
 │   ├── vista.plugin
 │   └── vista.js
 ├── quantumultx/
-│   ├── baidu-maps-noad/         ← QX X conf, bare rules 格式 (无 section header)
+│   ├── baidu-maps-noad/         ← QX conf, bare rules 格式 (无 section header)
 │   ├── bilibili-noad/
 │   ├── egdd/
 │   ├── flightradar24/
@@ -51,14 +51,14 @@ proxy-plugins/
 
 **核心约定**：
 - Loon plugin: `.plugin` 用 `[MITM]` + `[Script]` section 格式
-- QX X 远程 conf: `.conf` 用 **bare rules（无 section header）**——见 §3
-- JS 文件 **JavaScriptCore runtime 兼容 Loon 和 QX X**——通常共用同一份 .js（QX X conf 直接引用 Loon JS 的 raw.githubusercontent.com URL）
+- QX 远程 conf: `.conf` 用 **bare rules（无 section header）**——见 §3
+- JS 文件 **JavaScriptCore runtime 兼容 Loon 和 QX**——通常共用同一份 .js（QX conf 直接引用 Loon JS 的 raw.githubusercontent.com URL）
 - icon: `icons/<name>.png?v=N`，`?v=N` 是 cache-buster，icon 变更时 +1
 - 每个 plugin 一个目录，目录名跟 plugin 名一致
 
 ---
 
-## 3. 关键经验：Quantumult-X 1.8.0 远程 conf 格式
+## 3. 关键经验：QX 1.8.0 远程 conf 格式
 
 > **最重要的踩坑记录**。接手前先读这部分，否则会重蹈 4 次瞎猜的覆辙。
 
@@ -87,11 +87,11 @@ hostname = xxx
 ^pattern url script-response-body URL
 ```
 
-**所有 `[section]` header 在 QX X 远程 conf 里都报 "Invalid Line [xxx]"**。
+**所有 `[section]` header 在 QX 远程 conf 里都报 "Invalid Line [xxx]"**。
 
 ### 3.3 真实可参考的远程 conf 例子
 
-- **ddgksf2013/Rewrite/AdBlock/*.conf**（GitHub）—— 最干净的 QX X 远程 conf 参考样本
+- **ddgksf2013/Rewrite/AdBlock/*.conf**（GitHub）—— 最干净的 QX 远程 conf 参考样本
 - 上述仓库的 YouTubeAds.conf / AmapAds.conf 等都展示了正确格式
 
 ### 3.4 远程 conf 的 regex 限制（关键踩坑）
@@ -102,7 +102,7 @@ hostname = xxx
 | group 内 alternation `\|` | group + 结尾 anchor 组合 |
 | 不需要 `$` 收尾 | regex 强制 `$` 收尾 |
 
-**踩坑案例**：`^https?:\/\/ktx\.cn\/v3\/api\/(index\/loading_ad2|adm\/get_popup_ad)(\?|$)` 在 QX X 远程 conf 里**整个 pattern 不匹配**，**没有任何报错**——脚本不被调用，response 原样保留。
+**踩坑案例**：`^https?:\/\/ktx\.cn\/v3\/api\/(index\/loading_ad2|adm\/get_popup_ad)(\?|$)` 在 QX 远程 conf 里**整个 pattern 不匹配**，**没有任何报错**——脚本不被调用，response 原样保留。
 
 **修法**：拆成 2 条简单 prefix pattern：
 ```
@@ -130,15 +130,15 @@ if (!modified) {
 }
 ```
 
-**Loon/QX X 的 JSCore 严格模式，IIFE 外的顶层 `return` 报错**。
+**Loon/QX 的 JSCore 严格模式，IIFE 外的顶层 `return` 报错**。
 
 ### 3.6 MITM 资源缓存陷阱（关键踩坑）
 
-**QX X 加载远程 conf 后会缓存内容**，bug 修复后**必须**手动操作才能生效：
+**QX 加载远程 conf 后会缓存内容**，bug 修复后**必须**手动操作才能生效：
 
-1. QX X app → 设置 → 资源 → 找到旧资源 → **删掉**
-2. **杀掉 QX X app**（上滑退出）
-3. 重启 QX X
+1. QX app → 设置 → 资源 → 找到旧资源 → **删掉**
+2. **杀掉 QX app**（上滑退出）
+3. 重启 QX
 4. 重新添加资源 URL
 
 **不要依赖"自动更新"**——缓存可能持续几十小时。修 bug 后用户报告"还是不行"时，第一件事就是让用户走这个流程。
@@ -150,9 +150,9 @@ if (!modified) {
 | `hostname = xxx` + `^pattern url script-response-body URL`（远程 JS） | ✅ 验证过 | 推荐，跨平台共享 JS |
 | `hostname = xxx` + `^pattern url reject-200`（直接拒绝请求） | ✅ 验证过 | ddgksf2013 大量使用 |
 | `^pattern url jsonjq-response-body '<jq>'`（jq 改 body） | ✅ 验证过 | 简单 JSON 字段修改时用 |
-| 纯 MITM（无 script，依赖 SSL pin 失败） | ⚠️ 不可靠 | Loon 可能能用, QX X 不一定 |
+| 纯 MITM（无 script，依赖 SSL pin 失败） | ⚠️ 不可靠 | Loon 可能能用, QX 不一定 |
 | `script-request-body URL` | ✅ 应该可用 | spotify-unlock 在用 |
-| inline script (QX X 本地 conf 里写 script) | ❓ 未验证 | 不知道是否支持 |
+| inline script (QX 本地 conf 里写 script) | ❓ 未验证 | 不知道是否支持 |
 
 ---
 
@@ -188,10 +188,10 @@ with open('xxx.har') as f:
 
 | commit | 内容 |
 |---|---|
-| `f82618c` | 4 个 Loon plugin 移植到 QuantumultX（早期错版, 后被覆盖） |
+| `f82618c` | 4 个 Loon plugin 移植到 QX（早期错版, 后被覆盖） |
 | `b688039` | fr24 把 hostname 改到独立 `[mitm]` 段（错的） |
-| `4f806a3` | **关键**：全部 10 个 QX X 远程 conf 改用 bare rules 格式（正确版起点） |
-| `7390e19` | 新增 `quantumultx/vista/`（看天下 VIP 解锁 QX X 版） |
+| `4f806a3` | **关键**：全部 10 个 QX 远程 conf 改用 bare rules 格式（正确版起点） |
+| `7390e19` | 新增 `quantumultx/vista/`（看天下 VIP 解锁 QX 版） |
 | `c75771f` | vista README URL 残留 loon-vista 引用修复 |
 | `48f1198` | kantianxia-noad 顶层 `return` bug 修复（改引用 Loon JS） |
 | `e12a43d` | kantianxia-noad pattern 拆成 2 条简单 prefix（修了远程 conf regex 兼容） |
@@ -204,14 +204,14 @@ with open('xxx.har') as f:
 
 ## 6. 11 个 plugin 一览
 
-| Plugin | Loon | QX X | 机制 | 备注 |
+| Plugin | Loon | QX | 机制 | 备注 |
 |---|---|---|---|---|
-| **baidu-maps-noad** | ✓ | ✓ (未生效) | Loon: 纯 MITM / QX X: 同上 | QX X 版未解决（splash 仍出现） |
+| **baidu-maps-noad** | ✓ | ✓ (未生效) | Loon: 纯 MITM / QX: 同上 | QX 版未解决（splash 仍出现） |
 | **bilibili-noad** | ✓ | ✓ | MITM + script-response-body 清 splash | |
 | **egdd** | ✓ | ✓ | MITM + script 改 VIP flag | |
 | **flightradar24** | ✓ | ✓ | MITM + script 解锁 Gold 订阅 | Ted 验证可用 |
 | **google-rewrite** | ✓ | ✓ | URL Rewrite 302 跳转 | 无 script |
-| **kantianxia-noad** | ✓ | ✓ | MITM + script 清 splash + popup | Ted 验证 QX X 版可用 |
+| **kantianxia-noad** | ✓ | ✓ | MITM + script 清 splash + popup | Ted 验证 QX 版可用 |
 | **spotify-t2s** | ✓ | ✓ | MITM + OpenCC tw2s JS 改繁简 | 引用 Loon JS（同一份 2MB OpenCC 词典） |
 | **spotify-unlock** | ✓ | ✓ | MITM + JSON + Protobuf 两个 script | 韩国 IP 仍 4 秒停 (地区校验) |
 | **tideline** | ✓ | ✓ | MITM + HTML/JS 清理 + 黑名单域返空 | 91porn |
@@ -222,10 +222,10 @@ with open('xxx.har') as f:
 
 ## 7. 待办 / 已知限制
 
-### 7.1 baidu-maps-noad QX X 版未解决
+### 7.1 baidu-maps-noad QX 版未解决
 
 - **现状**：纯 MITM（无 script），依赖 SSL pin 失败机制
-- **问题**：QX X 上 splash 广告仍出现——MITM 可能没触发 SSL pin 失败，或百度地图 ad SDK 没强 pin
+- **问题**：QX 上 splash 广告仍出现——MITM 可能没触发 SSL pin 失败，或百度地图 ad SDK 没强 pin
 - **修法选项**：
   - **A. 加 script**：需要百度地图 HAR 找 splash ad endpoint → 加 `script-response-body` 清 ad 字段
   - **B. 加 `url reject-200`**：直接拒绝 ad 请求（pattern 需基于 HAR）
@@ -233,7 +233,7 @@ with open('xxx.har') as f:
 
 ### 7.2 wloc 暂搁置
 
-- **背景**：原仓库已删，作者曾提供 Loon + QX X 版本
+- **背景**：原仓库已删，作者曾提供 Loon + QX 版本
 - **OpenHRTT/wloc**（GitHub）是 iOS app 源码，分析过：
   - MITM 目标：`gs-loc.apple.com, gs-loc-cn.apple.com`
   - endpoint：`/clls/wloc`
@@ -242,7 +242,7 @@ with open('xxx.har') as f:
 - **两条路径已规划**：
   - **A. 纯 GitHub**：硬编码坐标进 JS（不灵活）
   - **B. GitHub + Cloudflare Worker**：Worker 处理坐标配置 + protobuf 改写
-- **关键技术风险**：QX X `script-response-body` 是否能处理 binary protobuf（需先验证）
+- **关键技术风险**：QX `script-response-body` 是否能处理 binary protobuf（需先验证）
 - **搁置原因**：维护者说"先不动吧，后面看情况再说"
 
 ---
@@ -303,7 +303,7 @@ print(f'脚本被 fetch 次数: {len(js_requests)}')
 
 ### 9.1 用户对代理 plugin 的具体偏好
 
-- **不喜欢**：同一错误连续猜几次（2026-09-28 我连续 4 次瞎猜 QX X 语法，被骂"先去查官方文档"）
+- **不喜欢**：同一错误连续猜几次（2026-09-28 我连续 4 次瞎猜 QX 语法，被骂"先去查官方文档"）
 - **喜欢**：直接说技术判断和修复方案，不套话，不 moralizing
 - **风格**：严谨，陈述需可证，推断需标注，限制需说清；不堆叠修辞，不做超出证据的承诺
 - **小操作自己跑，跑前复述命令**；不可逆大操作用户自己跑
@@ -317,15 +317,15 @@ print(f'脚本被 fetch 次数: {len(js_requests)}')
 3. **接到新需求时**：
    - 先确认是哪个 plugin / 哪个平台
    - 有没有抓包 / 日志作为证据
-   - **不要瞎猜 QX X 语法**——参照 `ddgksf2013/Rewrite/AdBlock/*.conf` 真例子
+   - **不要瞎猜 QX 语法**——参照 `ddgksf2013/Rewrite/AdBlock/*.conf` 真例子
 4. **修 bug 流程**：
    - 不要依赖自动更新，让用户走 §3.6 缓存清理流程
    - 让用户抓新 HAR
    - 用 §4 诊断三件套定位
 5. **写新 plugin 流程**：
    - 先看现有 11 个 plugin 中最相似的当模板
-   - Loon 跟 QX X conf 格式完全不同（§3）
-   - JS 通常两边共用，QX X conf 通过 raw.githubusercontent.com URL 引用
+   - Loon 跟 QX conf 格式完全不同（§3）
+   - JS 通常两边共用，QX conf 通过 raw.githubusercontent.com URL 引用
 
 ---
 
@@ -334,7 +334,7 @@ print(f'脚本被 fetch 次数: {len(js_requests)}')
 - **不要直接用 `git push`** —— 用 github_helper.sh
 - **不要替用户评估版权 / 合规 / 反爬 / 平台政策**
 - **不要连续猜同一个错误**——先查真实例子
-- **不要在 QX X 远程 conf 里用 `[section]` header**——全裸规则
+- **不要在 QX 远程 conf 里用 `[section]` header**——全裸规则
 - **不要用 `(\?|$)` 结尾 + 嵌套 alternation**——拆成多条简单 pattern
 - **不要在 JS 顶层 (IIFE 外) 用 `return`**——抛 Illegal return statement
 - **不要依赖自动更新**——修 bug 后必须删旧资源 + 重启 + 重加
@@ -365,7 +365,7 @@ https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon/umetrip-noad/um
 # Loon Vista (特殊目录)
 https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/loon-vista/vista.plugin
 
-# Quantumult-X conf (bare rules 格式)
+# QX conf (bare rules 格式)
 https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/quantumultx/baidu-maps-noad/baidu-maps-noad.conf
 https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/quantumultx/bilibili-noad/bilibili-noad.conf
 https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/quantumultx/egdd/egdd.conf
@@ -385,9 +385,9 @@ https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/quantumultx/vista/vi
 
 修改或删除现有 plugin 时：
 
-1. **修改**：改完后 commit + push，**告诉用户"修好了，请按 §3.6 流程清缓存"**——QX X 缓存不会自动清
+1. **修改**：改完后 commit + push，**告诉用户"修好了，请按 §3.6 流程清缓存"**——QX 缓存不会自动清
 2. **删除**：跟用户确认（不可逆操作），git rm + commit + push，README 也要更新
-3. **重命名**：先跟用户确认（改名会破坏现有 QX X 资源订阅 URL），git mv + commit + push
+3. **重命名**：先跟用户确认（改名会破坏现有 QX 资源订阅 URL），git mv + commit + push
 
 ---
 
@@ -395,9 +395,9 @@ https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/quantumultx/vista/vi
 
 碰到 plugin 不工作时，按顺序要用户提供：
 
-1. **当前 QX X app 版本**（确认是 1.8.0+ crossutility fork，不是老 QuantumultX）
+1. **当前 QX app 版本**（确认是 1.8.0+ crossutility fork，不是老 QX）
 2. **当前 .conf 的 raw.githubusercontent.com URL**（确认他们用的是最新版本）
 3. **最新 HAR 抓包**（冷启动 app + 开 MITM + 关 bypass），按 §4 看诊断信号
-4. **QX X 资源日志**（如果能看到）——脚本是否被 fetch、是否报错
+4. **QX 资源日志**（如果能看到）——脚本是否被 fetch、是否报错
 
 避免问"你用的是哪个版本"之类的模糊问题——直接要 URL。

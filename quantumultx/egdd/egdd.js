@@ -1,4 +1,4 @@
-// egdd - 儿歌点点 VIP 解锁 — QuantumultX 版
+// egdd - 儿歌点点 VIP 解锁 — QX (Quantumult X) 版
 // v1.0.0 · 2026-09-28
 // 移植自 loon/egdd/egdd.js
 //

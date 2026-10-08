@@ -1,4 +1,4 @@
-# umetrip-noad (QuantumultX 版)
+# umetrip-noad (QX / Quantumult X 版)
 
 航旅纵横 (iOS) 去掉启动时的开屏广告。
 
@@ -18,7 +18,7 @@ JSON 嵌在 protobuf 的一个 string 字段里。字符串长度变了 → prot
 
 ## 安装
 
-把 `umetrip-noad.conf` 的两段内容复制到你的 QuantumultX 配置里：
+把 `umetrip-noad.conf` 的两段内容复制到你的 QX 配置里：
 
 ```ini
 [filter_local]
@@ -28,7 +28,7 @@ hostname = umestartup.umetrip.com
 ^https?:\/\/umestartup\.umetrip\.com\/ script-path=https://raw.githubusercontent.com/tedwcy/proxy-plugins/main/quantumultx/umetrip-noad/umetrip-noad.js, requires-body=true, tag=umetrip-noad, timeout=10
 ```
 
-QuantumultX 需要开启 MITM（设置 → HTTPS 解密 → 启用）。
+QX 需要开启 MITM（设置 → HTTPS 解密 → 启用）。
 
 启用后**杀掉 + 冷启动航旅纵横 app**。
 
@@ -41,7 +41,7 @@ QuantumultX 需要开启 MITM（设置 → HTTPS 解密 → 启用）。
 
 ## 与 Loon 版关系
 
-这是 `loon/umetrip-noad/umetrip-noad.plugin` v1.0.0 的 QuantumultX 移植版。
+这是 `loon/umetrip-noad/umetrip-noad.plugin` v1.0.0 的 QX 移植版。
 
 源代码：https://github.com/tedwcy/proxy-plugins/tree/main/quantumultx/umetrip-noad
 
