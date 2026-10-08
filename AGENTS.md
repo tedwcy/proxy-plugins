@@ -41,30 +41,23 @@ git config --global --add safe.directory /home/ted/DS918_TMP/opencode/proxy-plug
 
 ### Git push 凭据
 
-本环境**不**预置 GitHub 凭据 (无 SSH key、无 `~/.git-credentials`、无 PAT 环境变量, 老的 `~/.openclaw/secrets/github.json` 已随 OpenClaw 一起卸载).
+本环境配的是 **GitHub PAT 本地保存** (用户决定, 2026-10-08 立的方案, 跟之前 OpenClaw `~/.openclaw/secrets/github.json` 同样模式):
 
-**首次需要 push 时, 必须向用户索取以下任一**:
+- **凭据文件**: `/root/.config/proxy-plugins/credentials.json` (权限 600, root only)
+- **push helper**: `/root/.local/bin/proxy-plugins-push` (权限 700, root only)
+  - `proxy-plugins-push "msg"` → 自动 add + commit + push, 退出时 trap 清掉 remote URL 里的 token
+  - `proxy-plugins-push --no-commit` → 只 push 当前 branch
+  - `proxy-plugins-push status` / `log` / `reset` → 辅助命令
+  - 依赖: `$PATH` 含 `~/.local/bin` (一般 shell 默认加)
 
-1. **GitHub PAT (推荐, 最快)**: 用户贴 token, 临时设到 remote URL 推完再清
-2. **SSH private key**: 写到 `~/.ssh/github_ed25519`, `chmod 600`, 加到 `~/.ssh/config` 配 `Host github.com`, 改 `git remote set-url origin git@github.com:tedwcy/proxy-plugins.git`
+**⚠️ 安全声明**:
+- 这个 token **曾出现在对话历史里** (用户决定不 revoke, 仅观察账户活动)
+- 接手 agent **不要把 token 内容回显到对话、文档、commit message、log 任何地方**
+- 改 token 时, 直接覆盖 credentials.json, 不要再贴到对话
 
-PAT 临时推送流程:
+**首次需要 push 但 credentials.json 不存在**: 必须向用户索取新 PAT, 写到 `/root/.config/proxy-plugins/credentials.json` 同样格式 (chmod 600), **不要**贴到任何明文对话/文件/日志里。
 
-```bash
-# 1. 用户提供 token
-TOKEN="github_pat_xxxxx"
-
-# 2. 临时写入 remote URL
-git remote set-url origin "https://x-access-token:${TOKEN}@github.com/tedwcy/proxy-plugins.git"
-
-# 3. push
-git push origin main
-
-# 4. 立即清掉 token
-git remote set-url origin "https://github.com/tedwcy/proxy-plugins.git"
-```
-
-**⚠️ 推送完务必把 remote URL 改回不带 token 的形式**——不要让 token 长期驻留在 `.git/config` 里。SSH 方式没有这个风险, 长期用更安全。
+**长期更优方案 (未做)**: SSH private key (~/.ssh/github_ed25519 + ~/.ssh/config) — 不进对话/不进任何文件, 一次配好永久用。用户选择不升级, 尊重用户决定。
 
 ### HAR 文件边界
 
