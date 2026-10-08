@@ -229,7 +229,7 @@ with open('xxx.har') as f:
 - **修法选项**：
   - **A. 加 script**：需要百度地图 HAR 找 splash ad endpoint → 加 `script-response-body` 清 ad 字段
   - **B. 加 `url reject-200`**：直接拒绝 ad 请求（pattern 需基于 HAR）
-- **HAR 抓包文件名约定**：`量子ult-x-YYYY-MM-DD-HHMMSS.har`，存放在用户 NAS 的 OpenClaw 抓包目录
+- **HAR 抓包文件名约定**：`quantumult-x-YYYY-MM-DD-HHMMSS.har`，存放在项目内 `har/` 子目录 (有 `.gitignore`, 永远不入版本库)
 
 ### 7.2 wloc 暂搁置
 
@@ -249,25 +249,28 @@ with open('xxx.har') as f:
 
 ## 8. 工具 / 工作流
 
-### 8.1 Git 操作（不要直接用 `git push`）
+### 8.1 Git 操作
 
 ```bash
-~/.openclaw/secrets/github_helper.sh add <files...>
-~/.openclaw/secrets/github_helper.sh commit -m "..."
-~/.openclaw/secrets/github_helper.sh push
-~/.openclaw/secrets/github_helper.sh log
+# 标准 git 直推 (无 helper)
+git add <files>
+git commit -m "<msg>"
+git push origin main
 ```
 
-**不要用 `git push`**——会用错身份或触发额外流程。
+**⚠️ 凭据**: 本环境不预置 GitHub 凭据。首次 push 必须问用户要 PAT / SSH key (详见 `AGENTS.md` §1 "Git push 凭据")。
 
 ### 8.2 找代码 / 文件
 
 ```bash
+# 工作目录
+cd /home/ted/DS918_TMP/opencode/proxy-plugins
+
 # 找 plugin
-ls $HOME/.openclaw/workspace/proxy-plugins/{loon,quantumultx,loon-vista}/
+ls loon/ quantumultx/ loon-vista/
 
 # 抓包文件
-ls -lat $HOME/<NAS_OPENCLAW_DIR>/ | head -10
+ls -lat har/ | head -10
 ```
 
 ### 8.3 HAR 分析脚本模板
@@ -331,17 +334,18 @@ print(f'脚本被 fetch 次数: {len(js_requests)}')
 
 ## 11. 注意事项 / 踩坑汇总
 
-- **不要直接用 `git push`** —— 用 github_helper.sh
 - **不要替用户评估版权 / 合规 / 反爬 / 平台政策**
 - **不要连续猜同一个错误**——先查真实例子
 - **不要在 QX 远程 conf 里用 `[section]` header**——全裸规则
 - **不要用 `(\?|$)` 结尾 + 嵌套 alternation**——拆成多条简单 pattern
 - **不要在 JS 顶层 (IIFE 外) 用 `return`**——抛 Illegal return statement
 - **不要依赖自动更新**——修 bug 后必须删旧资源 + 重启 + 重加
+- **不要假设 `~/.openclaw/` / `github_helper.sh` 存在**——OpenClaw 已卸载, 凭据必须临时索取
+- **不要把 PAT 长期留在 `.git/config`**——push 完立即清掉 remote URL
 
 ---
 
-最后更新：2026-10-07
+最后更新：2026-10-08
 
 ---
 
