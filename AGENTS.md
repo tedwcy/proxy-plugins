@@ -157,9 +157,30 @@ git remote set-url origin git@github.com:tedwcy/proxy-plugins.git
 
 ### 改 / 加 / 删 plugin 之前的复述规则 (用户长期约定)
 
-- **小操作 (本地 commit / push / 改 plugin)** —— agent 自己跑, **跑前复述完整命令**, 等绿灯或确认
-- **不可逆 / 高风险操作 (删 plugin、改名、清旧资源)** —— 让用户自己跑
+- **小操作 (本地 commit / push / 改 plugin / 改 AGENTS.md)** —— agent 自己跑, **跑前复述完整命令**, 等绿灯或确认
+- **不可逆 / 高风险操作 (删 plugin、改名、清旧资源、改 git remote URL、改 README 主要章节)** —— 让用户自己跑, 或 agent 跑前必须复述+等明确确认
 - **不替用户评估版权 / 合规 / TOS / 反爬 / 平台政策**——这些是用户决定的事, agent 不在他已决定要做的事上 moralizing
+
+#### 复述规则的升级: 用户说"自动跑"后
+
+**(2026-10-15 用户明确要求)** 用户在对话中明确说"这种操作以后直接自动执行"后, agent **永久**切换为"小操作免复述直接跑"模式, 直到用户改主意。具体边界:
+
+- ✅ **免复述直接跑** (agent 跑完简短汇报做了什么, 不等绿灯):
+  - git add / commit / push (走 `/root/.local/bin/proxy-plugins-push`)
+  - 改 plugin `.conf` / `.js` / `.plugin` 内容
+  - 改 AGENTS.md / README.md (非破坏性编辑)
+  - 改 `.gitignore`
+  - 创建 / 改临时脚本 (放项目外, 比如 `/tmp/`)
+- ⚠️ **仍需复述等确认** (不可逆 / 高风险):
+  - 删整个 plugin 目录 (跨平台)
+  - 改 plugin 名字 / 移动到别的子目录
+  - 改 `git remote` URL (HTTPS↔SSH)
+  - 改 `credentials.json` 里的 token
+  - 改 `.gitignore` 里影响 HAR / 凭据的关键行
+  - 改 README 里的侵权投诉邮箱 / 免责声明
+- 🤝 **首次约定原则**: 新会话第一轮 agent **默认按 §2 跑前复述等绿灯**, 不假设有"免复述"授权; 等用户在本会话中**显式说"以后自动跑"** 才切换。如果用户没说但明显已经多次确认同意, agent 可以**问一次**"以后这种小操作我直接跑, 不再复述等绿灯, 除非你撤回?" 让用户拍板。
+
+**已知上下文**: 本仓库的所有 plugin 改动都是用户长期决定要做的事, agent 不做版权/TOS 评估, 直接按用户指令落地。
 
 ### Git 命令 (标准用法, 不再走任何 helper)
 
