@@ -39,25 +39,102 @@ git config --global --add safe.directory /home/ted/DS918_TMP/opencode/proxy-plug
 
 否则所有 git 命令都失败。
 
-### Git push 凭据
+### Git push 凭据 / helper
 
-本环境配的是 **GitHub PAT 本地保存** (用户决定, 2026-10-08 立的方案, 跟之前 OpenClaw `~/.openclaw/secrets/github.json` 同样模式):
+本环境配的是 **GitHub PAT 本地保存 + push helper** (用户决定, 2026-10-08 立的方案, 跟之前 OpenClaw `~/.openclaw/secrets/github.json` 同样模式)。**新接手 agent 不要问用户要 PAT** —— 凭据和 helper 都已部署好, 自助跑就行。
 
-- **凭据文件**: `/root/.config/proxy-plugins/credentials.json` (权限 600, root only)
-- **push helper**: `/root/.local/bin/proxy-plugins-push` (权限 700, root only)
-  - `proxy-plugins-push "msg"` → 自动 add + commit + push, 退出时 trap 清掉 remote URL 里的 token
-  - `proxy-plugins-push --no-commit` → 只 push 当前 branch
-  - `proxy-plugins-push status` / `log` / `reset` → 辅助命令
-  - 依赖: `$PATH` 含 `~/.local/bin` (一般 shell 默认加)
+#### 文件清单
 
-**⚠️ 安全声明**:
-- 这个 token **曾出现在对话历史里** (用户决定不 revoke, 仅观察账户活动)
-- 接手 agent **不要把 token 内容回显到对话、文档、commit message、log 任何地方**
-- 改 token 时, 直接覆盖 credentials.json, 不要再贴到对话
+| 文件 | 权限 | 用途 |
+|---|---|---|
+| `/root/.config/proxy-plugins/credentials.json` | 600 root | 存 GitHub PAT, JSON 格式 `{"token": "ghp_..."}` (key 名是 `token`, **不是** `github_token`) |
+| `/root/.local/bin/proxy-plugins-push` | 700 root | bash 脚本, 自动 add+commit+push, push 完显式调 cleanup_token 把 remote URL 里的 token 改回干净的 `https://github.com/tedwcy/proxy-plugins.git` |
 
-**首次需要 push 但 credentials.json 不存在**: 必须向用户索取新 PAT, 写到 `/root/.config/proxy-plugins/credentials.json` 同样格式 (chmod 600), **不要**贴到任何明文对话/文件/日志里。
+#### 标准流程 (新接手照搬)
 
-**长期更优方案 (未做)**: SSH private key (~/.ssh/github_ed25519 + ~/.ssh/config) — 不进对话/不进任何文件, 一次配好永久用。用户选择不升级, 尊重用户决定。
+```bash
+cd /home/ted/DS918_TMP/opencode/proxy-plugins
+git config --global --add safe.directory /home/ted/DS918_TMP/opencode/proxy-plugins   # 首次必跑, 后续 idempotent
+git status                                                                              # 看脏状态
+/root/.local/bin/proxy-plugins-push "<conventional 风格 commit msg>"                   # 主入口
+git log --oneline -n 3                                                                 # 验证 push 成功
+git remote -v                                                                          # 验证 origin URL 是干净的 (无 ghp_...)
+```
+
+#### helper 命令速查
+
+| 命令 | 行为 |
+|---|---|
+| `proxy-plugins-push "msg"` | add -A + commit <msg> + push + 清 token |
+| `proxy-plugins-push` (无参) | add -A + commit "wip" + push + 清 token |
+| `--no-commit` | 只 push 当前 branch (跳过 add / commit) |
+| `status` | `git status -s` |
+| `log` | `git log --oneline -10` |
+| `reset` | 防御性清 token (git remote URL 改回干净) |
+
+#### ⚠️ 安全约束 (接手 agent 必读)
+
+- **不要**把 token 内容回显到对话 / 文档 / commit message / log
+- **不要**用 `cat credentials.json` / `python3 -c "import json; ..."` (回显 token), 改用 `cat credentials.json | head -c 30` 或 `ls -la` 验证存在
+- **不要**让 token 长期留在 `git remote -v` —— push 完跑 `git remote -v` 验证 URL 干净
+- **不要**假设 token 永远有效 —— GitHub PAT 可能 30/60/90 天过期 (但用户已知风险, 见下)
+- 改 token 时直接覆盖 credentials.json, **不要**贴到任何明文对话/文件/日志
+
+**已知风险**: 这个 token **曾出现在对话历史里** (用户决定不 revoke, 仅观察账户活动)。如果 GitHub 告警 → 走"修法 B"。
+
+#### 出错排查表 (新接手必看)
+
+| 现象 | 排查 | 修法 |
+|---|---|---|
+| `proxy-plugins-push` 报 `ERROR: 凭据文件不存在` | `ls -la /root/.config/proxy-plugins/credentials.json` | 文件丢失 → **修法 A** (见下) |
+| `Permission denied` | `ls -la credentials.json` | 权限被改 → `chmod 600 /root/.config/proxy-plugins/credentials.json` |
+| helper 报 `python3` 找不到或 JSON parse 失败 | `cat credentials.json` (内容应该 `{"token":"ghp_...`, 不带 BOM) | 文件被改坏 → **修法 A** 重建 |
+| helper 报 `command not found` | `ls -la /root/.local/bin/proxy-plugins-push` | helper 丢失 → 从 HANDOFF §1 描述重建 (bash, 见"修法 D") |
+| `git push` 报 `403` / `Bad credentials` / `Token expired` | token 过期或被 revoke | **修法 B** (见下) |
+| push 成功但 `git remote -v` 还带 `x-access-token:ghp_...` | helper 的 cleanup_token 没跑成功 (脚本 set -e 中途异常) | 手动 `proxy-plugins-push reset` 清理 |
+| 用户改用 SSH 方案 | `~/.ssh/github_ed25519` + `~/.ssh/config` 已配, git remote 已改 ssh | 长期更优方案, 已生效 (见 §"SSH 方案") |
+
+#### 修法速查
+
+**修法 A — credentials.json 丢失 /权限错**:
+
+⚠️ **这一项是允许向用户索取 PAT 的唯一场景**。其他情况下不要问。
+
+```bash
+# 1. 让用户临时提供新 PAT (用户在对话里贴)
+# 2. agent 自己写文件, 不回显内容
+install -m 600 /dev/null /root/.config/proxy-plugins/credentials.json
+# 用 heredoc 或 sed 把 token 写进去, 操作过程不打印到对话
+# 3. 验证存在性 (不回显内容)
+ls -la /root/.config/proxy-plugins/credentials.json
+cat credentials.json | head -c 30   # 应该看到 {"token":"ghp_
+```
+
+**修法 B — token 过期 / 被 revoke**:
+
+1. 让用户去 https://github.com/settings/tokens 生成新 PAT (勾选 `repo` scope)
+2. 走 **修法 A** 流程覆盖 credentials.json
+3. 验证一次 push 成功
+
+**修法 D — helper 脚本丢失**:
+
+bash 脚本, 用 `install -m 700` 写到 `/root/.local/bin/proxy-plugins-push`。代码不在 AGENTS.md 里(避免冗余) —— 如果老环境(2 个月前的会话)里有 copy, 就地 cp 过来;否则从 HANDOFF.md §1 找原始记录。
+
+#### SSH 方案 (长期更优, 未启用)
+
+```bash
+ssh-keygen -t ed25519 -C "tedwcy@users.noreply.github.com"
+# ~/.ssh/github_ed25519.pub → GitHub Settings → SSH keys
+cat > ~/.ssh/config <<'EOF'
+Host github.com
+  IdentityFile ~/.ssh/github_ed25519
+  User git
+EOF
+cd /home/ted/DS918_TMP/opencode/proxy-plugins
+git remote set-url origin git@github.com:tedwcy/proxy-plugins.git
+```
+
+用户 2026-10-08 选择不启用(沿用 PAT 方案), 接手 agent **不要主动迁移**, 除非用户明确要求。
 
 ### HAR 文件边界
 
@@ -227,8 +304,9 @@ QX 加载远程 conf 后会缓存内容, **不要依赖自动更新**。修 bug 
 
 ## 8. 不要做的事 (汇总)
 
-- ❌ 假设有 `~/.openclaw/` 或 `github_helper.sh` —— OpenClaw 已卸载, 凭据必须由用户临时提供
-- ❌ 把 GitHub PAT 长期留在 `git remote -v` 或 `.git/config` 里 —— 推完立即清掉
+- ❌ 假设有 `~/.openclaw/` 或 `github_helper.sh` —— OpenClaw 已卸载, 但 **`/root/.config/proxy-plugins/credentials.json` + `/root/.local/bin/proxy-plugins-push` 已部署好**, 自助跑 (§1)
+- ❌ **不问就向用户索取 PAT** —— 凭据文件 99% 都在。先 `ls -la` + `cat credentials.json | head -c 30` 确认, 缺失才是唯一索取场景 (修法 A)
+- ❌ 把 GitHub PAT 长期留在 `git remote -v` 或 `.git/config` 里 —— 推完立即清掉 (push 后 `git remote -v` 验证)
 - ❌ 在 QX 远程 conf 里写 `[section]` header
 - ❌ 用 `(\?|$)` 结尾 + 嵌套 alternation 的 regex pattern
 - ❌ 在 JS 顶层 (IIFE 外) 用 `return`
