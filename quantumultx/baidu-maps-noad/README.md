@@ -7,9 +7,9 @@
 | 广告 | 状态 | 端点 / 改写字段 |
 |---|---|---|
 | 开屏广告 (splash) | ✓ v1.0.0+ | `afd.baidu.com/afd/entry?action=query|update` — 清空 `res.ad` + `splash.style_desc` + `splash.empty_ext_info` |
-| 主页顶部横幅 "在？抽个 AirPods5" | ✓ v1.1.0 | `newclient.map.baidu.com/client/phpui2/?qt=ads` — 清空 `data.result/list/cards/items` + 顶层 `result/list/cards/items` |
-| 主页左上角 "古今地图" 广告入口 | ✓ v1.1.0 | 同上 (`user_home_icon` 类型) |
-| 主页推荐 / AI 卡片 (防御性) | ✓ v1.1.0 | `newclient.map.baidu.com/govui/{cross_list_recommend,aimode/query_rec}` + `llm-render/get_ai_card` |
+| 主页顶部横幅 "在？抽个 AirPods5" | ✗ v1.1.1 实测无效 (mTLS 强 SSL pin) | `newclient.map.baidu.com/client/phpui2/?qt=ads` 已被 QX MITM 接管但 app 端绕过 QX CA |
+| 主页左上角 "古今地图" 广告入口 | ✗ v1.1.1 实测无效 (mTLS 强 SSL pin) | 同上 |
+| 主页推荐 / AI 卡片 (防御性) | ✗ v1.1.1 实测无效 (mTLS 强 SSL pin) | `newclient.map.baidu.com/govui/{cross_list_recommend,aimode/query_rec}` + `llm-render/get_ai_card` |
 
 ## 改写机制 (v1.1.0)
 
@@ -62,6 +62,7 @@ QX 需开启 MITM (设置 → HTTPS 解密 → 启用)。
 
 | 版本 | 日期 | 备注 |
 |---|---|---|
+| **v1.1.1** | 2026-10-15 | docs: 用户实测 4.5 分钟反复冷启动, 开屏广告已去除 (核心目标达成), 但主页 banner + 古今地图 仍出现. 原因: mTLS 强 SSL pin 让 QX 无法接管 `*.map.baidu.com`. 改 README 标记此为"已知不可行" + 替代方案 |
 | **v1.1.0** | 2026-10-15 | hostname 加 `*.map.baidu.com` 通配 (核心 bug 修复); 新增主页 banner + 古今地图 改写 (`newclient.map.baidu.com/client/phpui2/?qt=ads`); 新增 empty_ext_info 清空 (v1.0.0 漏的, 解释"偶尔还有开屏") |
 | v1.0.0 | 2026-10-15 | 初版. 仅覆盖开屏 (splash). 用户实测 4.5 分钟内反复冷启动, 仍然看到开屏 + 主页 banner + 古今地图 (HAR 里 0 个 `*.map.baidu.com` 请求, 说明 v1.0.0 hostname 漏了核心域) |
 
@@ -69,16 +70,21 @@ QX 需开启 MITM (设置 → HTTPS 解密 → 启用)。
 
 - v1.1.0 假设百度地图 V22 改写后主页 ad card 字段名在 `data.result/list/cards` 之类 (因为没抓到 `phpui2/?qt=ads` 实际响应样本, 134411 HAR 里这个 endpoint 0 次). 如果实际字段名不一样, plugin 改写可能无效 (但 hostname 兜底仍能让 SSL pin 失败)
 - 走 `*.map.baidu.com` 的 mTLS 强 SSL pin 可能让 plugin 失效 (app 端能联通), 这种只能等未来绕过
+- **v1.1.1 用户实测 (2026-10-15)**: 主页顶部横幅 "在？抽个 AirPods5" + 左上角 "古今地图" **未能去除**。原因: HAR `quantumult-x-2026-10-15-134411.har` (4.5 分钟, 104 请求, 用户反复冷启动) 里 **0 个 `*.map.baidu.com` 请求** (但 `afd.baidu.com` / `mbd.baidu.com` 抓到了 33 次). 推断: 百度地图 V22 核心 API 走 mTLS 强 SSL pin, QX MITM 即使加 `*.map.baidu.com` 通配, app 端仍能绕过 QX CA 直连. plugin 物理上无法拦截这些端点
+- **v1.1.1 用户实测: 开屏广告 (核心目标) 已去除** —— v1.1.0 通过 `empty_ext_info = ""` 强制清空 + 兜底 hostname, 4.5 分钟反复冷启动 0 次出现
 - 不影响地图核心功能 (路径规划 / 导航 / 搜索 / 公交 / 街景)
 - 百度升级 app 后可能改 endpoint, plugin 可能失效, 需重新抓包
 - iOS 越狱设备如装 SSL Kill Switch 等插件, 可能绕过 SSL pin
 
-## 待办 (v1.2.0 路线图)
+## 已知不可行 (v1.2.0 路线图作废, 替代方案)
 
-1. 用户**抓取包含 newclient.map.baidu.com 请求的 HAR** (重点: 看到主页 banner + 古今地图 时)
-   - 当前 HAR 0 个 `*.map.baidu.com` 请求, 是因为 mTLS 强 pin 还是 MITM 没接管? 待验证
-2. 分析 `client/phpui2/?qt=ads` 实际响应字段名, 把"清空一切可能字段" 改成"清空确切字段" (降低误清风险)
-3. 如果 mTLS 强 pin 是问题, 评估能不能用 mTLS 解密方案 / Loon 替代
+**v1.2.0 路线图作废** (2026-10-15): 原计划抓包含 `newclient.map.baidu.com` 请求的 HAR + 精细化改写 `phpui2/?qt=ads` 字段. v1.1.1 实测无效, 原因是 mTLS 强 SSL pin 让 QX 物理上无法接管这些端点, 跟字段名无关.
+
+**替代方案** (待用户决定):
+1. **换 Loon / Surge / Stash** —— 部分工具有 mTLS 解密能力 (e.g. Surge 的 MITM over SSL, Stash 的增强 MITM), 但需要确认
+2. **用 iOS 越狱 + SSL Kill Switch 3** —— 强制让 app 不验证 cert, 但越狱有安全/稳定性风险
+3. **接受现状** —— v1.1.0 已满足核心目标 (去开屏), 主页 banner/古今地图 仍出现但不影响地图功能
+4. **抓 har 重试** —— 若用户后续发现百度放开 pin, 重抓 HAR 验证是否还走 mTLS 强 pin
 
 ## 上游 / 致谢
 
