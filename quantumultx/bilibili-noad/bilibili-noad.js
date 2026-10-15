@@ -1,5 +1,5 @@
-// Bilibili 去开屏广告 — QX (Quantumult X) 版
-// v1.0.1 · 2026-10-15 02:20
+// Bilibili 去开屏广告 + ban 广告追踪 — QX (Quantumult X) 版
+// v1.0.2 · 2026-10-15 09:50
 //
 // 抓包来源: quantumult-x-2026-10-15-021759.har (iOS)
 //   /x/v2/splash/list   → data.list[71] (splash 库存) + data.show[28] (当前激活)
@@ -15,7 +15,7 @@
 //   - 清空 data.list 和 data.show, app 没有 splash 可显示
 //   - JSON 解析失败 / 非 success code → 透传
 
-console.log('[BilibiliNoAd] v1.0.1 loaded');
+console.log('[BilibiliNoAd] v1.0.2 loaded');
 
 (function () {
   let body;
